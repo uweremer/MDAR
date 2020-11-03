@@ -1,9 +1,14 @@
 ---
-title: "Multivariate Data Analysis mit R"
+title: "Multivariate Daten-Analyse mit R"
 author: 
   - name: "Dr. Uwe Remer"
-    affiliation: "Universität Stuttgart"
-    email: "uwe.remer@sowi.uni-stuttgart.de"
+    affiliation: |
+      | Universität Stuttgart
+      | Institut für Sozialwissenschaften
+      | Sowi VII - Computational Social Science
+      | https://www.sowi.uni-stuttgart.de/institut/team/Remer
+      | uwe.remer@sowi.uni-stuttgart.de
+    email: 
 date: "WS 2020/2021"
 output:
   html_document:
@@ -47,17 +52,18 @@ Modul 100870 Statistik-Software für Sozialwissenschaftler
 Dann 9 ECTS
 ```
 Campus-Nr.: [273081](https://campus.uni-stuttgart.de/cusonline/pl/ui/$ctx/wbLv.wbShowLVDetail?pStpSpNr=273081)  
+LV-Nr.: 242201170  
 Link zum Kurs auf [ILIAS](https://ilias3.uni-stuttgart.de/goto_Uni_Stuttgart_crs_2095425.html)
 
 <p style="max-width: 20%; float: right;">
 ![R Logo](./images/R_logo.svg)
 </p>
 
-
+Stand 02.11.2020  
 
 # Seminarbeschreibung 
 
-Die professionelle Analyse empirischer Daten ist in der sozialwissenschaftlichen Forschung und in vielen Berufsfeldern von Sozialwissenschaftlern wichtig. Meist erfordern entsprechende Analysen auch multivariate Methoden. Deshalb sind Kenntnisse multivariater Analyseverfahren - deren praktische Anwendung und die Interpretation der Ergebnisse - wichtige Voraussetzungen, um einerseits empirische Texte besser verstehen (und kritisieren) sowie andererseits im Studium und ggf. später im Beruf eigene empirische Analysen durchführen zu können. 
+Die fachkundige Analyse empirischer Daten ist in der sozialwissenschaftlichen Forschung und in vielen Berufsfeldern von Sozialwissenschaftler*Innen wichtig. Meist erfordern die Analysen um belastbare Schlussfolgerungen ziehen zu können multivariate Methoden. Deshalb sind Kenntnisse multivariater Analyseverfahren - deren praktische Anwendung und die Interpretation der Ergebnisse - wichtige Voraussetzungen, um einerseits empirische Texte besser verstehen (und kritisieren) sowie andererseits im Studium und ggf. später im Beruf eigene empirische Analysen durchführen zu können. 
 
 Im Seminar sollen die Studierenden mit Hilfe zahlreicher Übungsaufgaben die dafür notwendigen Kompetenzen entwickeln, indem sie die Verfahren zunächst vorgestellt bekommen und sich unter Anleitung und später eigenständig die entsprechenden Lösungswege erarbeiten. Bevor multivariate Verfahren durchgeführt werden können, sind in der Regel einige Vorarbeiten an den Daten zu leisten wie z.B. Rekodierungen, die Bildung von Indizes etc. In der ersten Sitzung werden deshalb kurz die Verfahren zur Datentransformation wiederholt. Im weiteren Verlauf werden dann zentrale Analyseverfahren wie Faktorenanalyse, t-Test, Varianzanalyse und die lineare Regression angewendet und die Interpretation der Ergebnisse an Beispielen eingeübt.
 
@@ -144,8 +150,6 @@ Falls Sie einen Termin in der Sprechstunde möchten, vereinbaren wir einen Termi
 
 
 
-
-
 # Sitzungen 
 
 S | Datum | Titel
@@ -156,10 +160,10 @@ S | Datum | Titel
 4 | 23.11.2020 | Wiederholung: recodieren, transformieren, Indices
 5 | 30.11.2020 | Wiederholung: uni- und bivariate Statistik
 6 | 07.12.2020 | Mittelwertvergleich (t-Test)
-7 | 14.12.2020 | Varianzanalyse (ANOVA) {
-8 | 21.12.2020 | Explorative Faktorenanalyse und Reliabilität
-9 | 11.01.2021 | Regressionsanalyse I, Einführung
-10 | 18.01.2021 | Regressionsanalyse II, multivariate Regression 
-11 | 25.01.2021 | Regressionsanalyse III, Kausalität und Drittvariablenkontrolle
-12 | 01.02.2021 | Regressionsanalyse IV, Regressionsannahmen und -diagnostik 
-13 | 08.02.2021 | Regressionsanalyse V, Moderator- und Mediator-Effekte
+7 | 14.12.2020 | Explorative Faktorenanalyse und Reliabilität
+8 | 21.12.2020 | Regressionsanalyse I, Einführung
+9 | 11.01.2021 | Regressionsanalyse II, multivariate Regression 
+10 | 18.01.2021 | Regressionsanalyse III, Kausalität und Drittvariablenkontrolle
+11 | 25.01.2021 | Regressionsanalyse IV, Regressionsannahmen und -diagnostik
+12 | 01.02.2021 | Regressionsanalyse V, Moderator- und Mediator-Effekte 
+13 | 08.02.2021 | Abschlusssitzung und Besprechung Hausarbeit
