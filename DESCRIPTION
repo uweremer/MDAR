@@ -1,0 +1,13 @@
+Package: MDAR
+Type: Package
+Title: Support package for "Multivariate Data Analysis with R (MDAR)"
+Version: 0.1.0
+Author: Uwe Remer
+Maintainer: Uwe Remer <uwe.remer@sowi.uni-stuttgart.de>
+Description: This is the accompanying R package for the the seminar 
+   "Multivariate Data Analysis with R (MDAR)" at the University 
+   of Stuttgat, winter term 2020/2021. It is developed as support 
+   tool for online teaching during the COVID-19 crisis. 
+License: all rights reserved
+Encoding: UTF-8
+LazyData: true

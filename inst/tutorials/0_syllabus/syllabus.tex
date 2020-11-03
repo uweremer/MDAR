@@ -1,0 +1,426 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={Multivariate Data Analysis mit R},
+  pdfauthor={Dr.~Uwe Remer},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\usepackage[a4paper]{geometry}
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{5}
+
+\title{Multivariate Data Analysis mit R}
+\usepackage{etoolbox}
+\makeatletter
+\providecommand{\subtitle}[1]{% add subtitle to \maketitle
+  \apptocmd{\@title}{\par {\large #1 \par}}{}{}
+}
+\makeatother
+\subtitle{(und etwas SPSS)}
+\author{Dr.~Uwe Remer}
+\date{WS 2020/2021}
+
+\begin{document}
+\maketitle
+
+{
+\setcounter{tocdepth}{2}
+\tableofcontents
+}
+\hypertarget{syllabus}{%
+\section{Syllabus}\label{syllabus}}
+
+Campus-Nr.:
+\href{https://campus.uni-stuttgart.de/cusonline/pl/ui/$ctx/wbLv.wbShowLVDetail?pStpSpNr=273081}{273081}
+
+Link zum Kurs auf
+\href{https://ilias3.uni-stuttgart.de/goto_Uni_Stuttgart_crs_2095425.html}{ILIAS}
+
+\hypertarget{seminarbeschreibung}{%
+\subsection{Seminarbeschreibung}\label{seminarbeschreibung}}
+
+Die professionelle Analyse empirischer Daten ist in der
+sozialwissenschaftlichen Forschung und in vielen Berufsfeldern von
+Sozialwissenschaftlern wichtig. Meist erfordern entsprechende Analysen
+auch multivariate Methoden. Deshalb sind Kenntnisse multivariater
+Analyseverfahren - deren praktische Anwendung und die Interpretation der
+Ergebnisse - wichtige Voraussetzungen, um einerseits empirische Texte
+besser verstehen (und kritisieren) sowie andererseits im Studium und
+ggf. später im Beruf eigene empirische Analysen durchführen zu können.
+Im Seminar sollen die Studierenden mit Hilfe zahlreicher Übungsaufgaben
+die dafür notwendigen Kompetenzen entwickeln, indem sie die Verfahren
+zunächst vorgestellt bekommen und sich unter Anleitung und später
+eigenständig die entsprechenden Lösungswege erarbeiten. Bevor
+multivariate Verfahren durchgeführt werden können, sind in der Regel
+einige Vorarbeiten an den Daten zu leisten wie z.B. Rekodierungen, die
+Bildung von Indizes etc. In der ersten Sitzung werden deshalb kurz die
+Verfahren zur Datentransformation wiederholt. Im weiteren Verlauf werden
+dann zentrale Analyseverfahren wie Faktorenanalyse, t-Test,
+Varianzanalyse und die lineare Regression angewendet und die
+Interpretation der Ergebnisse an Beispielen eingeübt.
+
+\hypertarget{r---freie-software-und-state-of-the-art}{%
+\subsection{R - Freie Software und ``State of the
+Art''}\label{r---freie-software-und-state-of-the-art}}
+
+\begin{quote}
+``As is evident in the content of this journal from its inception, and
+in books on statistical computing published recently by and for
+statisticians, R has come to dominate the development of statistical
+software by statisticians. The use of R among political scientists and
+others in the social sciences is apparently also on an upwards
+trajectory'' --- Altman 2011\footnote{Altman, Micah et al.~(2011): An
+  Introduction to the Special Volume on Political Methodology. In:
+  Journal of Statistical Software, Vol. 41, Nr.1. DOI:
+  \url{http://dx.doi.org/10.18637/jss.v042.i01}}
+\end{quote}
+
+Fast zehn Jahre nach dieser Aussage ist R mittlerweile das
+Statistikpaket der Wahl für Alle, die quantitative Analysen auf höchstem
+Niveau und in größter Flexibilität durchführen wollen und (neben Python)
+der Standard in Data Science, Digital Humanities und Computational
+Social Science.
+
+R ist eine Programmiersprache zur statistischen Datenanalyse und als
+Statistikprogramm R unter der GNU General Public License frei verfügbar.
+In der aktuellen Version 4.0.2 läuft es auf Windows, MacOS und Linux.
+Das Grundgerüst von R lässt sich durch eine Vielzahl von Paketen
+erweitern, mit denen sich unterschiedliche statistische
+Problemstellungen bearbeiten lassen.
+
+Ebenso ist es einfach möglich, eigene Erweiterungen zu programmieren. R
+ist kommandozeilenbasiert (vergleichbar mit der SPSS-Syntax). Dies hat
+den Vorteil, dass die Anwender*In genau wissen muss, was sie überhaupt
+vorhat und zu welchem Zweck sie welche statistischen Tests vom Programm
+anfordert. Eine besondere Stärke von R liegt in den umfangreichen
+Möglichkeiten der Datenvisualisierung.
+
+Zwar ist der Einstieg in R etwas schwieriger, jedoch steigt die
+Lernkurve nach einigen Stunden intensiver Beschäftigung (wenn man die
+grundsätzliche Logik verstanden hat) stark an. Mit R gibt es dann
+keinerlei Beschränkungen mehr, was an Auswertung möglich ist (bis auf
+das, was statistisch möglich ist). Zu keinem anderen Statistikprogramm
+gibt es eine solche Bandbreite an Unterstützung im Internet
+(Video-Tutorials, Mailinglisten, Blogs und Diskussionsseiten). Darüber
+hinaus stehen zu R und allen Paketen Handbücher als pdf's frei zur
+Verfügung.
+
+Vor allem durch die freie Zugänglichkeit und Unabhängigkeit von
+Lizenzen, ist R im universitären Kontext besonders attraktiv. Darüber
+hinaus erlernen die Studierenden ein Programm, auf das sie auch nach der
+Zeit an der Universität (wo es in der Regel die Lizenzen für die teuren
+Statistikprogramme gibt), nutzen können. Die wenigsten Studierende
+treffen auf einen Arbeitgeber, bei dem SPSS oder Stata vorhanden ist.
+Mit R sind sie dennoch in der Lage statistische Analysen auf höchstem
+Niveau durchzuführen, ohne skeptische Verantwortliche („das geht
+bestimmt auch mit Excel``) vom Nutzen eines teuren Statistikprogramms
+überzeugen zu müssen.
+
+Ein Hinweis zum Schluss: In der R Community gibt es zwei Strömungen:
+``\emph{base R}'' (die reine Lehre) und ``\emph{tidyverse}'' (der
+Sündenfall, der R massentauglich macht). Sicherlich werden einige von
+Ihnen über kurz oder lang gefallen an tidyverse finden. Aus didaktischen
+Gründen lernen Sie im Seminar aber base R (trozdem nutzen wir natürlich
+eine VIelzahl an Paketen und Befehlen aus dem tidyverse).
+
+\hypertarget{ressourcen}{%
+\subsection{Ressourcen}\label{ressourcen}}
+
+R ist Open-Source -- also kostenlose, freie Software. Bitte installieren
+Sie auf Ihrem Computer/Laptop schon Mal R. Dazu benötigen Sie zwei Dinge
+(bitte auch in dieser Reihenfolge installieren):
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  R: \url{https://cran.r-project.org/bin/windows/base/}
+\item
+  R-Studio:
+  \url{https://rstudio.com/products/rstudio/download/\#download}
+\end{enumerate}
+
+\hypertarget{online-ressourcen}{%
+\subsubsection{Online Ressourcen}\label{online-ressourcen}}
+
+\begin{itemize}
+\tightlist
+\item
+  R finden Sie im Internet unter \url{https://www.r-project.org}. Über
+  den Link CRAN (Comprehensive R Archive Network) können Sie R
+  herunterladen.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Außerdem gibt es ein ausführliches FAQ:
+    \url{https://cran.r-project.org/doc/FAQ/R-FAQ.html}
+  \item
+    Und Sie können herausfinden, welche Pakete es zu welchem Zweck gibt:
+    \url{https://cran.r-project.org/web/views/}
+  \end{itemize}
+\item
+  Um das Syntax-, Output- und Datenmanagement mit R zu erleichtern, gibt
+  es eine Reihe von grafischen Oberflächen für R. Wir nutzen für das
+  Seminar RStudio: \url{https://rstudio.org}
+\item
+  Tipps und eine Übersicht über die Möglichkeiten mit R findet man bei
+  Quick-R unter \url{https://www.statmethods.net}.
+\item
+  Aktuelle Entwicklungen, Informationen über neue Pakete und besonders
+  schöne Beispiele für Analysen gibt es bei den R-Bloggers
+  \url{http://www.r-bloggers.com}.
+\end{itemize}
+
+\hypertarget{literaturempfehlungen}{%
+\subsubsection{Literaturempfehlungen}\label{literaturempfehlungen}}
+
+\hypertarget{r}{%
+\paragraph{R}\label{r}}
+
+\begin{itemize}
+\tightlist
+\item
+  Adler, Joseph (2012):
+  \href{https://www.oreilly.com/library/view/r-in-a/9781449358204/}{R in
+  a Nutshell}. Sebastopol, Calif: O'Reilly Media.
+  \href{https://stg.ibs-bw.de/aDISWeb/app?service=direct/0/Home/$DirectLink\&sp=SOPAC02\&sp=SAKSWB-IdNr1619328763}{UB}
+\item
+  Field, Andy/Miles, Jeremy/Field, Zoë (2012):
+  \href{https://uk.sagepub.com/en-gb/eur/discovering-statistics-using-r/book236067}{Discovering
+  Statistics Using R}. London: Sage.
+  \href{https://stg.ibs-bw.de/aDISWeb/app?service=direct/0/Home/$DirectLink\&sp=SOPAC02\&sp=SAKSWB-IdNr68436977X}{UB}
+\item
+  Fox, John/Weisberg, Sanford (2018):
+  \href{https://uk.sagepub.com/en-gb/eur/an-r-companion-to-applied-regression/book246125}{An
+  R companion to applied regression}. Thousand Oaks, Calif: SAGE
+  Publications.
+  \href{https://stg.ibs-bw.de/aDISWeb/app?service=direct/0/Home/$DirectLink\&sp=SOPAC02\&sp=SAKSWB-IdNr1644736535}{UB}
+\item
+  Gelman, Andrew/Hill, Jennifer/Vehtari, Aki (2020): Regression and
+  Other Stories. Cambridge: Cambridge University Press. doi:
+  \href{https://www.cambridge.org/core/books/regression-and-other-stories/DD20DD6C9057118581076E54E40C372C}{10.1017/9781139161879}
+\item
+  Gelman, Andrew/Hill, Jennifer (2012):
+  \href{https://www.cambridge.org/core/books/data-analysis-using-regression-and-multilevelhierarchical-models}{Data
+  analysis using regression and multilevel, hierarchical models.}
+  Cambridge: Cambridge University Press.
+  \href{https://stg.ibs-bw.de/aDISWeb/app?service=direct/0/Home/$DirectLink\&sp=SOPAC02\&sp=SAKSWB-IdNr617446911}{UB}
+\item
+  Kabacoff, Robert (2015):
+  \href{https://www.manning.com/books/r-in-action-second-edition}{R in
+  Action. Data Analysis and Graphics with R}. Shelter Island, London:
+  Manning.
+  \href{https://stg.ibs-bw.de/aDISWeb/app?service=direct/0/Home/$DirectLink\&sp=SOPAC02\&sp=SAKSWB-IdNr798788666}{UB}
+\item
+  Verzani, John (2014): Using R for introductory statistics. Boca Raton:
+  Chapman and Hall.
+  \href{https://stg.ibs-bw.de/aDISWeb/app?service=direct/0/Home/$DirectLink\&sp=SOPAC02\&sp=SAKSWB-IdNr786091401}{UB}
+\end{itemize}
+
+\hypertarget{wer-etwas-zu-spss-sucht}{%
+\paragraph{Wer etwas zu SPSS
+sucht\ldots{}}\label{wer-etwas-zu-spss-sucht}}
+
+\begin{itemize}
+\item
+  Urban, Dieter/Mayerl, Jochen 2018: Angewandte Regressionsanalyse:
+  Theorie, Technik und Praxis. Wiesbaden: VS Verlag für
+  Sozialwissenschaften.
+  \href{https://link.springer.com/content/pdf/10.1007\%2F978-3-658-01915-0.pdf}{pdf
+  von SpringerLink via VPN frei verfügbar}
+\item
+  Backhaus, Klaus/Erichson, Bernd/Plinke, Wulf/Weiber, Rolf 2011:
+  \href{https://www.springer.com/de/book/9783662566541}{Multivariate
+  Analysemethoden.} Berlin: Springer.
+  \href{https://stg.ibs-bw.de/aDISWeb/app?service=direct/0/Home/$DirectLink\&sp=SOPAC02\&sp=SAKSWB-IdNr1026759854}{UB}
+\item
+  Field, Andy 2018:
+  \href{https://www.discoveringstatistics.com/books/dsus/}{Discovering
+  Statistics Using SPSS.} London: Sage.
+  \href{https://stg.ibs-bw.de/aDISWeb/app?service=direct/0/Home/$DirectLink\&sp=SOPAC02\&sp=SAKSWB-IdNr887803784}{UB}
+\end{itemize}
+
+\hypertarget{forschungsdesign-methoden-und-statistik}{%
+\paragraph{Forschungsdesign, Methoden und
+Statistik}\label{forschungsdesign-methoden-und-statistik}}
+
+\begin{itemize}
+\tightlist
+\item
+  Agresti, Alan/Finlay, Barbara (2009):
+  \href{https://www.pearson.com/us/higher-education/program/Agresti-Statistical-Methods-for-the-Social-Sciences-5th-Edition/PGM334444.html}{Statistical
+  Methods for the Social Sciences.} Prentice Hall.
+  \href{https://stg.ibs-bw.de/aDISWeb/app?service=direct/0/Home/$DirectLink\&sp=SOPAC02\&sp=SAKSWB-IdNr54555618X}{UB}
+\item
+  Kellstedt, Paul M./Whitten, Guy D. (2013):
+  \href{https://www.cambridge.org/core/books/fundamentals-of-political-science-research/D216914982BC901C8E50461818D387A7}{The
+  Fundamentals of Political Science Research.} New York: Cambridge
+  University Press.
+  \href{https://stg.ibs-bw.de/aDISWeb/app?service=direct/0/Home/$DirectLink\&sp=SOPAC02\&sp=SAKSWB-IdNr733649246}{UB}
+\item
+  Powner, Leanne C. (2015):
+  \href{https://uk.sagepub.com/en-gb/eur/book/empirical-research-and-writing}{Empirical
+  research and writing. A political science student's practical guide.}
+  Los Angeles: Sage CQ Press.
+  \href{https://stg.ibs-bw.de/aDISWeb/app?service=direct/0/Home/$DirectLink\&sp=SOPAC02\&sp=SAKSWB-IdNr1616376724}{UB}
+\item
+  Wolf, Christof/Best, Henning (Hrsg.): Handbuch der
+  sozialwissenschaftlichen Datenanalyse. Wiesbaden: VS Verlag für
+  Sozialwissenschaften.
+  \href{https://link.springer.com/book/10.1007/978-3-531-92038-2}{pdf
+  von SpringerLink via VPN frei verfügbar}
+\end{itemize}
+
+\hypertarget{formalia}{%
+\subsection{Formalia}\label{formalia}}
+
+Das Seminar ``Multivariate Datenanalyse mit R (und etwas SPSS)'' ist
+Teil 2 des Moduls 282502 ``Statistik-Software für
+Sozialwissenschaftler'' im Studiengang BA Sozialwissenschaften (PO 2012
+und PO 2018). Für das Modul erhalten Sie 6 ECTS.
+
+Die Prüfungsleistung für das Modul besteht in einer
+lehrveranstaltungsbegleitenden Prüfung (Nr.
+\href{https://campus.uni-stuttgart.de/cusonline/pl/ui/$ctx/wbLv.wbShowLVDetail?pStpSpNr=273461}{28252}),
+die Sie als kurze Hausarbeit im Umfang von sechs bis acht Seiten in
+diesem Seminar erbringen. Abgabefrist für die Hausarbeit ist (Stand
+2.11.2020) der 31.03.2021. Die Abgabe erfolgt ausschließlich digital als
+pdf und R Code über einen Dateibriefkasten in ILIAS.
+
+Das Seminar hat mit 3 ECTS einen Workload von 90 Stunden, davon 21
+Stunden in Präsenz. Präsenz heißt in diesem Semester: ILIAS-Lernmodule,
+Lernvideos, Webex-Sitzungen. Darüber hinaus sollten Sie ca. ein bis zwei
+Stunden fürs Lesen und eigenständiges Bearbeiten von Übungsaufgaben
+einplanen.
+
+Falls Sie einen Termin in der Sprechstunde möchten, vereinbaren wir
+einen Termin per Mail. Die Sprechstunde findet dann über Webex statt:
+\url{https://unistuttgart.webex.com/meet/uwe.remer}
+
+\hypertarget{sitzungen}{%
+\subsection{Sitzungen}\label{sitzungen}}
+
+\hypertarget{sitzung-1---konstituierende-sitzung}{%
+\subsubsection{02.11.2020 Sitzung 1 - Konstituierende
+Sitzung}\label{sitzung-1---konstituierende-sitzung}}
+
+\hypertarget{sitzung-2---erste-schritte-mit-r}{%
+\subsubsection{09.11.2020 Sitzung 2 - Erste Schritte mit
+R}\label{sitzung-2---erste-schritte-mit-r}}
+
+\hypertarget{sitzung-3---r-workflow}{%
+\subsubsection{16.11.2020 Sitzung 3 - R
+Workflow}\label{sitzung-3---r-workflow}}
+
+\begin{itemize}
+\tightlist
+\item
+  Daten einlesen
+\item
+  Daten und Code handling (R Projekte, Workingdirectory, Ordnerstruktur)
+\item
+  Code schreiben (Variablenanme, Einrückungen, Kommentare etc.)
+\item
+  R Markdown
+\end{itemize}
+
+\hypertarget{sitzung-4---wiederholung-recodieren-transformieren-indices}{%
+\subsubsection{23.11.2020 Sitzung 4 - Wiederholung: recodieren,
+transformieren,
+Indices}\label{sitzung-4---wiederholung-recodieren-transformieren-indices}}
+
+\hypertarget{sitzung-5---wiederholung-uni--und-bivariate-statistik-aufbereiten-und-ausgeben}{%
+\subsubsection{30.11.2020 Sitzung 5 - Wiederholung: uni- und bivariate
+Statistik (aufbereiten und
+ausgeben)}\label{sitzung-5---wiederholung-uni--und-bivariate-statistik-aufbereiten-und-ausgeben}}
+
+\hypertarget{sitzung-6---mittelwertvergleich-t-test}{%
+\subsubsection{07.12.2020 Sitzung 6 - Mittelwertvergleich
+(t-Test)}\label{sitzung-6---mittelwertvergleich-t-test}}
+
+\hypertarget{sitzung-7---varianzanalyse-anova}{%
+\subsubsection{14.12.2020 Sitzung 7 - Varianzanalyse
+(ANOVA)}\label{sitzung-7---varianzanalyse-anova}}
+
+\hypertarget{sitzung-8---explorative-faktorenanalyse-und-reliabilituxe4t}{%
+\subsubsection{21.12.2020 Sitzung 8 - Explorative Faktorenanalyse und
+Reliabilität}\label{sitzung-8---explorative-faktorenanalyse-und-reliabilituxe4t}}
+
+\hypertarget{sitzung-9---regressionsanalyse-i-einfuxfchrung-bivariater-fall}{%
+\subsubsection{11.01.2021 Sitzung 9 - Regressionsanalyse I, Einführung
+(bivariater
+Fall)}\label{sitzung-9---regressionsanalyse-i-einfuxfchrung-bivariater-fall}}
+
+\hypertarget{sitzung-10---regressionsanalyse-ii-multivariate-regression}{%
+\subsubsection{18.01.2021 Sitzung 10 - Regressionsanalyse II,
+multivariate
+Regression}\label{sitzung-10---regressionsanalyse-ii-multivariate-regression}}
+
+\hypertarget{sitzung-11---regressionsanalyse-iii-kausalituxe4t-und-drittvariablenkontrolle}{%
+\subsubsection{25.01.2021 Sitzung 11 - Regressionsanalyse III,
+Kausalität und
+Drittvariablenkontrolle}\label{sitzung-11---regressionsanalyse-iii-kausalituxe4t-und-drittvariablenkontrolle}}
+
+\hypertarget{sitzung-12---regressionsanalyse-iv-regressionsannahmen-und--diagnostik}{%
+\subsubsection{01.02.2021 Sitzung 12 - Regressionsanalyse IV,
+Regressionsannahmen und
+-diagnostik}\label{sitzung-12---regressionsanalyse-iv-regressionsannahmen-und--diagnostik}}
+
+\hypertarget{sitzung-13---regressionsanalyse-v-moderator--und-mediator-effekte}{%
+\subsubsection{08.02.2021 Sitzung 13 - Regressionsanalyse V, Moderator-
+und
+Mediator-Effekte}\label{sitzung-13---regressionsanalyse-v-moderator--und-mediator-effekte}}
+
+\end{document}

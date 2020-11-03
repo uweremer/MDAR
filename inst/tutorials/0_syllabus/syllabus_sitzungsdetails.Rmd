@@ -1,0 +1,75 @@
+---
+title: "Multivariate Data Analysis mit R"
+author: 
+  - name: "Dr. Uwe Remer"
+    affiliation: "Universität Stuttgart"
+    email: "uwe.remer@sowi.uni-stuttgart.de"
+date: "WS 2020/2021"
+output:
+  html_document:
+    toc: yes
+    number_sections: no
+    toc_depth: 3
+    toc_float:
+      collapsed: true
+    df_print: paged
+    highlight: tango
+    theme: spacelab
+  pdf_document:
+    fig_caption: yes
+    number_sections: yes
+    toc: yes
+    toc_depth: 2
+    keep_tex: yes
+subtitle: (und etwas SPSS)
+geometry: a4paper
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+
+
+# Detailplanung
+
+## S1 - Konstituierende Sitzung 
+
+02.11.2020
+ 
+- Teil 1: Einstieg R
+  - Welche Gründe sprechen für R?  
+  - Datentypen in R
+- Teil 2 - Seminarvorstellung: 
+  - Ziele und Erwartungen
+  - Inhalte und Ablauf
+  - Formalia
+
+## S2 - 09.11.2020 
+**Erste Schritte mit R**
+
+## S3 - 16.11.2020 
+**R Workflow**
+
+- Daten einlesen
+- Daten und Code handling (R Projekte, Workingdirectory, Ordnerstruktur) 
+- Code schreiben (Variablenanme, Einrückungen, Kommentare etc.)
+- R Markdown  
+
+
+## 02.11.2020 Sitzung 1 - Konstituierende Sitzung {.unlisted .unnumbered}
+## 09.11.2020 Sitzung 2 - Erste Schritte mit R {.unlisted .unnumbered}
+## 16.11.2020 Sitzung 3 - R Workflow {.unlisted .unnumbered}
+
+
+## 23.11.2020 Sitzung 4 - Wiederholung: recodieren, transformieren, Indices {.unlisted .unnumbered}
+## 30.11.2020 Sitzung 5 - Wiederholung: uni- und bivariate Statistik (aufbereiten und ausgeben) {.unlisted .unnumbered}
+## 07.12.2020 Sitzung 6 - Mittelwertvergleich (t-Test) {.unlisted .unnumbered}
+## 14.12.2020 Sitzung 7 - Varianzanalyse (ANOVA) {.unlisted .unnumbered}
+## 21.12.2020 Sitzung 8 - Explorative Faktorenanalyse und Reliabilität {.unlisted .unnumbered}
+## 11.01.2021 Sitzung 9 - Regressionsanalyse I, Einführung (bivariater Fall) {.unlisted .unnumbered}
+## 18.01.2021 Sitzung 10 - Regressionsanalyse II, multivariate Regression {.unlisted .unnumbered}
+## 25.01.2021 Sitzung 11 - Regressionsanalyse III, Kausalität und Drittvariablenkontrolle {.unlisted .unnumbered}
+## 01.02.2021 Sitzung 12 - Regressionsanalyse IV, Regressionsannahmen und -diagnostik {.unlisted .unnumbered}
+## 08.02.2021 Sitzung 13 - Regressionsanalyse V, Moderator- und Mediator-Effekte {.unlisted .unnumbered}
