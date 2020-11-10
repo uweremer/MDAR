@@ -1,0 +1,128 @@
+---
+title: "Tutorial"
+output: learnr::tutorial
+runtime: shiny_prerendered
+---
+
+```{r setup, include=FALSE}
+library(learnr)
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+
+```{r}
+party_results <- read.table("../0_data/view_election.csv",
+                            sep=",",
+                            dec=".",
+                            quote = "\"",
+                            header=T)
+#head(party_results)
+```
+
+```{r setup_data}
+
+#countrycodes <- read.table("../0_data/un_countrycodes.csv",
+#                           sep=";",
+#                           header=T)
+#head(countrycodes)
+#parties <- party_results[party_results$country_name_short %in% countrycodes$m49_code, ]
+
+parties <- party_results[(party_results$country_name_short== "DEU" & 
+                            party_results$election_type == "parliament" &
+                            as.Date(party_results$election_date) > as.Date("1989-12-31")), ]
+
+parties$year <- substr(parties$election_date, 1,4)
+df <- reshape2::dcast(parties, party_name_short ~ year, value.var= "vote_share")
+df$party_name_short[2] <- "B90/Gr (Ost)"
+#names(df)
+
+ 
+# ParlGov database (Döring and Manow 2019)
+# 
+# Döring, Holger and Philip Manow. 2019. Parliaments and governments database (ParlGov): Information on parties, elections and cabinets in modern democracies. Development version. http://www.parlgov.org, abgerufen am 02.11.2020.
+# 
+# 
+# Country Codes 
+# https://unstats.un.org/unsd/methodology/m49/
+# 
+# Pupulist Parties:
+# https://popu-list.org/
+
+
+
+
+#ess <- foreign::read.spss("../data/ESS9/ESS9e02.sav",,
+#                          to.data.frame = TRUE,
+#                          use.value.labels = FALSE)
+#head(ess)
+#ess$cntry
+
+#names(attr(ess$cntry, "value.labels")) %in% countrycodes$country
+
+
+#unique(ess$cntry)
+```
+
+
+# Ergebnissicherung
+
+Den Abschluss der Sitzung 2 bildet dieses interaktive Tutorial^[Das Tutorial wurde ebenfalls mit R und dem Paket [learnR](https://rstudio.github.io/learnr/) erstellt.]  
+
+
+```{r two-plus-two, exercise=FALSE}
+auswahl <- c("CDU", "CSU", "SPD", "FDP", "B90/Gru", "PDS|Li")
+knitr::kable(df[df$party_name_short %in% auswahl,],
+             row.names = FALSE)
+```
+
+### Exercise with Code
+
+*Here's an exercise with some prepopulated code as well as `exercise.lines = 5` to provide a bit more initial room to work.*
+
+Now write a function that adds any two numbers and then call it:
+
+```{r add-function, exercise=TRUE, exercise.lines = 5}
+add <- function() {
+  
+}
+```
+
+## Topic 2
+
+### Exercise with Hint
+
+*Here's an exercise where the chunk is pre-evaulated via the `exercise.eval` option (so the user can see the default output we'd like them to customize). We also add a "hint" to the correct solution via the chunk immediate below labeled `print-limit-hint`.*
+
+Modify the following code to limit the number of rows printed to 5:
+
+```{r print-limit, exercise=TRUE, exercise.eval=TRUE}
+mtcars
+```
+
+```{r print-limit-hint}
+head(mtcars)
+```
+
+### Quiz
+
+*You can include any number of single or multiple choice questions as a quiz. Use the `question` function to define a question and the `quiz` function for grouping multiple questions together.*
+
+Some questions to verify that you understand the purposes of various base and recommended R packages:
+
+```{r quiz}
+quiz(
+  question("Which package contains functions for installing other R packages?",
+    answer("base"),
+    answer("tools"),
+    answer("utils", correct = TRUE),
+    answer("codetools")
+  ),
+  question("Which of the R packages listed below are used to create plots?",
+    answer("lattice", correct = TRUE),
+    answer("tools"),
+    answer("stats"),
+    answer("grid", correct = TRUE)
+  )
+)
+```
+
