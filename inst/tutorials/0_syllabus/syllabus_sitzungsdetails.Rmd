@@ -119,6 +119,10 @@ Die zweite Sitzung stellt die R Kommandozeile ("Console") vor und demonstriert e
 - Die Studierenden kennen das Konzept einer Funktion und können einfache Funktionen erstellen. 
 
 
+### Literatur
+
+Kabacoff 2011: 73-116
+
 ### Didaktik
 
 #### Einführungsvideo
@@ -136,35 +140,22 @@ Die zweite Sitzung stellt die R Kommandozeile ("Console") vor und demonstriert e
 - Funktionen nutzen
 - Erste Funktion erstellen (Mittelwert)
 
-#### Video zu Fehlermeldungen
+#### TODO: Video zu Fehlermeldungen
 
   - Präsentationsaufzeichnung
   - R Session Aufzeichnung
   
-#### Ergebnissicherung LearnR Tutorial
+#### TODO: Ergebnissicherung LearnR Tutorial
 
-- 
 
 
 ### ToDo und Notizen:
 
-https://stackoverflow.com/questions/35445112/what-is-the-difference-between-mode-and-class-in-r
-
-
-Objects have a mode (which describes
-how the object is stored) and a class (which tells generic functions like print how
-to handle it).
-
-In R, an object is anything that can be assigned to a variable. This includes constants,
-data structures, functions, and even graphs. Objects have a mode (which describes
-how the object is stored) and a class (which tells generic functions like print how
-to handle it).
-
-
-
-WICHTIG: NAMES Objekte ergänzen!
-FUNKTIONEN Slides ergänzen
-
+- Datenstrukturen stat Datentypen
+- WICHTIG: NAMES Objekte ergänzen!
+- FUNKTIONEN Slides ergänzen
+- Video zu Fehlermeldungen
+- Ergebnissicherung LearnR Tutorial
 
 
 
@@ -184,16 +175,154 @@ FUNKTIONEN Slides ergänzen
 
 ### Didaktik
 
+ILIAS Lernmodul
+Begrüßungsvideo
+Inhaltsseite Funktionen 
+Inhaltsseite -> Wiederholung via LearnR
+
+Überleitungsvideo: Jetzt data.frame als neue Datenstruktur
+"Finden Sie heraus, wo ihr Datensatz ist" --> Später: Projekt.
+Skript / Learnr: Einlesen 
+LearnR Arbeiten mit Dataframes
+
+kbacoff pretty -> table
+
+Kein überspeichern des DAetnsatzes. Nur speichern des Skriptes.
+
+Überleitungsvideo: R Workflow
+
+Projekte
+Markdown
+Versionskontrolle
+
+
+
+
+- Zeigen Supplement 36 Seiten mit Code
+- Zeigen Artikel mit Reproducible code https://onlinelibrary.wiley.com/doi/full/10.1111/ajps.12550 
+- dataverse https://doi.org/10.7910/DVN/Z5BTCQ 
+- 
+
+
+
+
+- Wir erstellen also nicht nur eine Analyse, sondern einen Technischen Appendix zu einer wissenschaftlichen Arbeit. 
+
+- Man weiß auch nach Monaten noch, was man getan hat
+- Andere können es nachvollziehen (intersubjektivität)
+- Reproduzierbar (Alle Daten und der Code sind dokumentiert und lauffähig) 
+- Replizierbar andere können mit anderen Daetn Anlysestrategie nachvollziehen
+- Steinbruch für weitere Arbeiten
+
+
+R Markdown
+
+yaml = metadata
+
+
+code chunks
+
+labels
+
+echo
+eval
+results hide asis
+
+
+fig.cap, fig.asp, fig.width, fig.path="figs/"
+
+references
+
+inline code
+
+
+Stargazer tables
+https://www.jakeruss.com/cheatsheets/stargazer/
+
+well shaped code
+
+
+Was gehört rein:
+
+Zusammenfassung: Was macht das Skript?
+
+Abschnitte mit Überschriften Strukturieren 
+Daten einlesen
+Variablen Vorbereiten
+Bivariate Analysen
+Regressionsanalysen
+Robustheits-Checks
+
+Einzelne Schritte beschreiben:
+Was tun Sie, wie und warum?
+Beschreibung ist so aussagekräftig, dass man auch ohne Code zum selben ergebnis käme
+
+Wenn entscheidungen getroffen werden (müssen): Hier kann man dokumentieren!
+In der Arbeit schreibt man: "xyz wurde geprüft..." Im Anhang wird diese Prüfung dann berichtet. Z.B: alternative Operationalisierungen. 
+
+
+GGf. Einzelne Codezeilen zusätzlich kommentieren, wenn nicht
+direkt ersichtlich ist, was hier passiert.
+
+Muss nicht, aber kann!
+Versionskontrolle! Github
+
+
+
+Krise der Demokratie und Erfolg populistischer Parteien
+
+
+Aufgabe: 
+
+Legen Sie ein Projekt an
+Erstellen Sie eine neue R Markdown Datei
+
+
+
+Datensatz einlesen
+
+
 
 
 ### ToDo und Notizen:
 
+Wiederholung: Funktionen die wir genutzt haben
+length(object) Number of elements/components.
+dim(object) Dimensions of an object.
+str(object) Structure of an object.
+class(object) Class or type of an object.
+mode(object) How an object is stored.
+names(object) Names of components in an object.
+c(object, object,...) Combines objects into a vector.
+cbind(object, object, ...) Combines objects as columns.
+rbind(object, object, ...) Combines objects as rows.
+object Prints the object.
+head(object) Lists the first part of the object.
+tail(object) Lists the last part of the object.
+ls() Lists current objects.
+rm(object, object, ...) Deletes one or more objects. The statement
+rm(list = ls()) will remove most objects
+from the working environment.
+newobject <- edit(object) Edits object and saves as newobject.
+fix(object) Edits in place.
+
+
+
+data.frame
+Factors
+
+head()
+tails()
+
 Kabacoff S12 Functions to handle workspace
 
 
-## 02.11.2020 Sitzung 1 - Konstituierende Sitzung {.unlisted .unnumbered}
-## 09.11.2020 Sitzung 2 - Erste Schritte mit R {.unlisted .unnumbered}
-## 16.11.2020 Sitzung 3 - R Workflow {.unlisted .unnumbered}
+Einrücken, verschachteln etc.
+
+
+
+
+
 
 
 ## 23.11.2020 Sitzung 4 - Wiederholung: recodieren, transformieren, Indices {.unlisted .unnumbered}
