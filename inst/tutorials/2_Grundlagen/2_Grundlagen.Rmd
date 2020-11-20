@@ -19,11 +19,12 @@ tutorial_options(exercise.cap = "Bitte eingeben")
 
 
 ```{r}
-party_results <- read.table("../0_data/view_election.csv",
-                            sep=",",
-                            dec=".",
-                            quote = "\"",
-                            header=T)
+#party_results <- read.table("../0_data/view_election.csv",
+#                            sep=",",
+#                            dec=".",
+#                            quote = "\"",
+#                            header=T)
+
 #head(party_results)
 ```
 
@@ -35,13 +36,13 @@ party_results <- read.table("../0_data/view_election.csv",
 #head(countrycodes)
 #parties <- party_results[party_results$country_name_short %in% countrycodes$m49_code, ]
 
-parties <- party_results[(party_results$country_name_short== "DEU" & 
-                            party_results$election_type == "parliament" &
-                            as.Date(party_results$election_date) > as.Date("1989-12-31")), ]
-
-parties$year <- substr(parties$election_date, 1,4)
-df <- reshape2::dcast(parties, party_name_short ~ year, value.var= "vote_share")
-df$party_name_short[2] <- "B90/Gr (Ost)"
+#parties <- party_results[(party_results$country_name_short== "DEU" & 
+#                            party_results$election_type == "parliament" &
+#                            as.Date(party_results$election_date) > as.Date("1989-12-31")), ]#
+#
+#parties$year <- substr(parties$election_date, 1,4)
+#df <- reshape2::dcast(parties, party_name_short ~ year, value.var= "vote_share")
+#df$party_name_short[2] <- "B90/Gr (Ost)"
 #names(df)
 
  
@@ -418,7 +419,7 @@ a >= 12
 Will man nur das Subset haben, dann wird diese logische Information `TRUE` oder `FALSE` genutzt, um R mitzuteilen, welches Element aus dem Vektor ausgegeben werden soll:
 ```{r indizieren4, exercise=TRUE,  exercise.setup = "indizieren-prepare"}
 welches.element <- a >= 12 #Erstellt den Velktor mit TRUE oder FALSE
-a[welches.elenment] # Nutzt den TRUE/FALSE Vektor zum Indizieren
+a[welches.element] # Nutzt den TRUE/FALSE Vektor zum Indizieren
 ```
 
 Es geht aber auch direkt... Aber jetzt wissen Sie, warum `a` für die Bedingung auch nochmal in der eckigen Klammer gennant werden muss:
@@ -468,14 +469,132 @@ koalitionen[c("2009", "2013")] <- c("CDU/CSU und SPD", "CDU/CSU und FDP")
 
 ### Indizieren einer Matrix
 
+Bitte schauen Sie sich die folgende Tabelle an:
 
-```{r two-plus-two, exercise=FALSE}
+
+```{r tab}
 auswahl <- c("CDU", "CSU", "SPD", "FDP", "B90/Gru", "PDS|Li")
 knitr::kable(df[df$party_name_short %in% auswahl,],
              row.names = FALSE)
 ```
 
+```{r btw-prepare, exercise=FALSE}
+wahlen <- as.matrix(df[df$party_name_short %in% auswahl, c(2:9)])
+dimnames(wahlen) <- NULL
+```
+
+Ich habe bereits für jede Partei einen Vektor erstellt und diese mit `rbind()` zu einer Matrix zusammengefügt. Sie können das Matrix-Objekt mit dem Namen `wahlen` aufrufen: 
+
+```{r mat1, exercise=TRUE,  exercise.setup = "btw-prepare"}
+wahlen
+```
 
 
+Jetzt sind Sie dran: bitte beschriften Sie die Matrix mit Parteinamen und Jahreszahlen mithilfe der `dimnames()` Funktion. Die Funktion `dimnames()` muss für die Zeilenbeschriftung mit `dimnames()[[1]] <- ...` und für die Spaltenbeschriftung mit `dimnames()[[2]] <- ...` genutzt werden.
+
+```{r mat2, exercise=TRUE,  exercise.setup = "btw-prepare"}
+
+```
+
+```{r mat2-solution}
+partei <- c("B90/Gru", "CDU", "CSU", "FDP", "PDS|Li", "SPD") 
+jahr <- c(1990, 1994, 1998, 2002, 2005, 2009, 2013, 2017)
+dimnames(wahlen)[[1]] <- partei
+dimnames(wahlen)[[2]] <- jahr
+```
 
 
+Leider hat sich ein Fehler eingeschlichen. 1990 sind die Grünen in Ost und West getrennt angetreten. In Ostdeutschland gab es das *Bündnis 90/Grüne-BürgerInnenbewegungen*. Diese haben 1,2 Prozent geholt. Das muss dem Ergebnis der Grünen hinzugerechnet werden.
+
+Bitte nutzen Sie die Indizierung, um das Ergebnis der Grünen 1990 in der Matrix zu korrigieren.
+
+
+```{r mat3, exercise=TRUE,  exercise.setup = "btw-prepare"}
+
+```
+
+
+```{r mat3-solution}
+wahlen["B90/Gru","1990"] <- wahlen["B90/Gru","1990"] + 1.2
+
+# Alternativ
+wahlen[1,1] <- wahlen[1,1] + 1.2
+
+# Geht auch gemischt, ist aber kein guter Stil
+wahlen[1,"1990"] <- wahlen["B90/Gru",1] + 1.2
+```
+
+
+Bitte erstellen Sie eine neue Matrix mit dem Namen `wahlen2` auf Basis der bestehenden Matrix. Sie soll eine zuätzliche Zeile in enthalten, die das gemeinsame Ergebnis für die CDU/CSU enthält. 
+
+```{r mat4, exercise=TRUE,  exercise.setup = "btw-prepare"}
+
+```
+
+
+```{r mat4-solution}
+# Denken Sie daran, dass wir, wenn wir eine ganze Zeile indizieren wollen
+# die zweite Angabe in der eckigen Klammer (nach dem Komma) leer bleiben muss.
+
+CDU_und_CSU <- wahlen["CDU",] + wahlen["CSU",] 
+# Oder
+# CDU_und_CSU <- wahlen[2,] + wahlen[3,] 
+
+wahlen2 <- rbind(wahlen, CDU_und_CSU)
+```
+
+
+Jetzt sollen Sie dieses neue Objekt `wahlen2` nutzen, um zu berechnen, wie viel Prozent Stimmanteil sonstige Parteien erhalten haben. Denken Sie daran, dass Sie jetzt nicht `CDU` und `CSU` oder `CDUundCSU` gleichzeitig nutzen dürfen, sondern durch Indizierung ausschließen müssen.
+
+```{r btw-prepare2}
+partei <- c("B90/Gru", "CDU", "CSU", "FDP", "PDS|Li", "SPD") 
+jahr <- c(1990, 1994, 1998, 2002, 2005, 2009, 2013, 2017)
+dimnames(wahlen)[[1]] <- partei
+dimnames(wahlen)[[2]] <- jahr
+CDU_und_CSU <- wahlen["CDU",] + wahlen["CSU",] 
+wahlen2 <- rbind(wahlen, CDU_und_CSU)
+```
+
+```{r mat5, exercise=TRUE,  exercise.setup = "btw-prepare2"}
+
+```
+
+```{r mat5-solution}
+gesamt.pro.wahl <- c(sum(wahlen[c(1:6),1]),
+                     sum(wahlen[c(1:6),2]),
+                     sum(wahlen[c(1:6),3]),
+                     sum(wahlen[c(1:6),4]),
+                     sum(wahlen[c(1:6),5]),
+                     sum(wahlen[c(1:6),6]),
+                     sum(wahlen[c(1:6),7]),
+                     sum(wahlen[c(1:6),8]))
+sonstige <- 100 - gesamt.pro.wahl
+sonstige
+```
+
+Wenn Sie die Musterlösung gesehen haben, werden Sie sicher denken: das muss doch auch einfacher gehen. Ja: Alternativ können Sie die Funktion `colSums()` nutzen um Spaltenweise Summen zu berechnen (und ja, es gibt auch die Funktion `rowSums()`):
+
+```{r mat6, exercise=TRUE,  exercise.setup = "btw-prepare2"}
+gesamt.pro.wahl <- colSums(wahlen2[c(1:6),])
+sonstige <- 100 - gesamt.pro.wahl
+sonstige 
+
+# Oder direkt die sonstigen berechnen:
+sonstige <- 100 - colSums(wahlen2[c(1:6),])
+sonstige
+```
+
+
+Übrigens, Sie können beim Indizieren auch mit einem Minus ausschließen:
+
+```{r mat7, exercise=TRUE,  exercise.setup = "btw-prepare2"}
+# Schließt die 7. Zeile aus
+wahlen2[-c(7),]
+# Schließt die 2. und 3 Zeile aus
+wahlen2[-c(2,3),]
+```
+
+
+## Schluss
+
+Sie sind fertig mit dem Tutorial zu den Grundlagen. Im nächsten Schritt werden wir sehen, wie man Daten in R einliest und wie man mit **Dataframes** arbeitet.

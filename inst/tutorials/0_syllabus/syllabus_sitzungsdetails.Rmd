@@ -191,95 +191,6 @@ Kein überspeichern des DAetnsatzes. Nur speichern des Skriptes.
 
 Überleitungsvideo: R Workflow
 
-Projekte
-Markdown
-Versionskontrolle
-
-
-
-
-- Zeigen Supplement 36 Seiten mit Code
-- Zeigen Artikel mit Reproducible code https://onlinelibrary.wiley.com/doi/full/10.1111/ajps.12550 
-- dataverse https://doi.org/10.7910/DVN/Z5BTCQ 
-- 
-
-
-
-
-- Wir erstellen also nicht nur eine Analyse, sondern einen Technischen Appendix zu einer wissenschaftlichen Arbeit. 
-
-- Man weiß auch nach Monaten noch, was man getan hat
-- Andere können es nachvollziehen (intersubjektivität)
-- Reproduzierbar (Alle Daten und der Code sind dokumentiert und lauffähig) 
-- Replizierbar andere können mit anderen Daetn Anlysestrategie nachvollziehen
-- Steinbruch für weitere Arbeiten
-
-
-R Markdown
-
-yaml = metadata
-
-
-code chunks
-
-labels
-
-echo
-eval
-results hide asis
-
-
-fig.cap, fig.asp, fig.width, fig.path="figs/"
-
-references
-
-inline code
-
-
-Stargazer tables
-https://www.jakeruss.com/cheatsheets/stargazer/
-
-well shaped code
-
-
-Was gehört rein:
-
-Zusammenfassung: Was macht das Skript?
-
-Abschnitte mit Überschriften Strukturieren 
-Daten einlesen
-Variablen Vorbereiten
-Bivariate Analysen
-Regressionsanalysen
-Robustheits-Checks
-
-Einzelne Schritte beschreiben:
-Was tun Sie, wie und warum?
-Beschreibung ist so aussagekräftig, dass man auch ohne Code zum selben ergebnis käme
-
-Wenn entscheidungen getroffen werden (müssen): Hier kann man dokumentieren!
-In der Arbeit schreibt man: "xyz wurde geprüft..." Im Anhang wird diese Prüfung dann berichtet. Z.B: alternative Operationalisierungen. 
-
-
-GGf. Einzelne Codezeilen zusätzlich kommentieren, wenn nicht
-direkt ersichtlich ist, was hier passiert.
-
-Muss nicht, aber kann!
-Versionskontrolle! Github
-
-
-
-Krise der Demokratie und Erfolg populistischer Parteien
-
-
-Aufgabe: 
-
-Legen Sie ein Projekt an
-Erstellen Sie eine neue R Markdown Datei
-
-
-
-Datensatz einlesen
 
 
 
@@ -326,6 +237,18 @@ Einrücken, verschachteln etc.
 
 
 ## 23.11.2020 Sitzung 4 - Wiederholung: recodieren, transformieren, Indices {.unlisted .unnumbered}
+
+
+
+## Aufgabe B
+
+Lesen Sie den ESS als SPSS-Datei ein. Nutzen Sie die Länderkürzel der Variable `cntry` um einen Vektor der Osteuropäischen EU-Länder zu erstellen. Nutzen Sie diesen dann mit dem `%in%` Operator, um je einen Osteuropa und Westeurop Subset des Datensatzes zu erstellen. Schließen Sie die Schweiz und Montenegro dabei als nicht-EU Länder aus. 
+
+1. Suchen Sie im Datensatz nach *einer* Variable, mit der Sie politisches Vertrauen messen würden.
+2. Berechnen Sie damit das durchschnittliche politische Vertrauen je für westeuropäischen und für die osteuropäischen Länder.
+3. Erstellen Sie eine relative Häufigkeitstabelle für die Variable `vote`. 
+4. Vergleichen Sie dann, wie hoch der Anteil der Wähler unter den Befragten ist, die überdi
+
 ## 30.11.2020 Sitzung 5 - Wiederholung: uni- und bivariate Statistik (aufbereiten und ausgeben) {.unlisted .unnumbered}
 ## 07.12.2020 Sitzung 6 - Mittelwertvergleich (t-Test) {.unlisted .unnumbered}
 ## 14.12.2020 Sitzung 7 - Varianzanalyse (ANOVA) {.unlisted .unnumbered}
@@ -335,3 +258,29 @@ Einrücken, verschachteln etc.
 ## 25.01.2021 Sitzung 11 - Regressionsanalyse III, Kausalität und Drittvariablenkontrolle {.unlisted .unnumbered}
 ## 01.02.2021 Sitzung 12 - Regressionsanalyse IV, Regressionsannahmen und -diagnostik {.unlisted .unnumbered}
 ## 08.02.2021 Sitzung 13 - Regressionsanalyse V, Moderator- und Mediator-Effekte {.unlisted .unnumbered}
+
+
+## Sitzung Hausarbeit: 
+
+Aufbau
+Was gehört rein:
+
+Zusammenfassung: Was macht das Skript?
+
+Abschnitte mit Überschriften Strukturieren 
+Daten einlesen
+Variablen Vorbereiten
+Bivariate Analysen
+Regressionsanalysen
+Robustheits-Checks
+
+Einzelne Schritte beschreiben:
+Was tun Sie, wie und warum?
+Beschreibung ist so aussagekräftig, dass man auch ohne Code zum selben ergebnis käme
+
+Wenn entscheidungen getroffen werden (müssen): Hier kann man dokumentieren!
+In der Arbeit schreibt man: "xyz wurde geprüft..." Im Anhang wird diese Prüfung dann berichtet. Z.B: alternative Operationalisierungen. 
+
+
+GGf. Einzelne Codezeilen zusätzlich kommentieren, wenn nicht
+direkt ersichtlich ist, was hier passiert.
