@@ -1,21 +1,28 @@
 ---
-subtitle: "MDA-R Sitzung 1"
-title: "Datentypen"
+title: "MDAR Sitzung 2"
+subtitle: "Grundlagen R"
 author: "Dr. Uwe Remer"
 date: "WS 2020/2021"
-description: "Welcome to learnr tutorials!"
 output: 
   learnr::tutorial:
     progressive: true
 runtime: shiny_prerendered
+description: >
+  Wiederholen Sie, wie Vektoren und Matrix Objekte erstellt
+  werden. Nutzen Sie einfache Funktionen und üben Sie ein,
+  wie die unterschiedliche Objekte mit Hilfe der eckigen 
+  Klammern [ ] indiziert werden.
 ---
 
 ```{r setup, include=FALSE}
 library(learnr)
+library(MDAR)
 library(knitr)
 knitr::opts_chunk$set(echo = FALSE)
 tutorial_options(exercise.cap = "Bitte eingeben")
 ```
+
+
 
 
 ```{r}
@@ -41,9 +48,9 @@ tutorial_options(exercise.cap = "Bitte eingeben")
 #                            as.Date(party_results$election_date) > as.Date("1989-12-31")), ]#
 #
 #parties$year <- substr(parties$election_date, 1,4)
-#df <- reshape2::dcast(parties, party_name_short ~ year, value.var= "vote_share")
-#df$party_name_short[2] <- "B90/Gr (Ost)"
-#names(df)
+#wahlergebnisse <- reshape2::dcast(parties, party_name_short ~ year, value.var= "vote_share")
+#wahlergebnisse$party_name_short[2] <- "B90/Gr (Ost)"
+#names(wahlergebnisse)
 
  
 # ParlGov database (Döring and Manow 2019)
@@ -72,13 +79,13 @@ tutorial_options(exercise.cap = "Bitte eingeben")
 #unique(ess$cntry)
 ```
 
-# Wiederholung
+# Grundlagen R - Objekte, Datenstrukturen und Indizierung
 
-## Datenstrukturen und Objekte
+## Teil 1 - Datenstrukturen und Objekte
 
 Zum Einstieg in die heutige Sitzung gibt es dieses interaktive Tutorial^[Das Tutorial wurde ebenfalls mit R und dem Paket [learnR](https://rstudio.github.io/learnr/) erstellt.], dass die Inhalte der letzten Woche wiederholt.   
 
-Manchmal müssen Sie selbst den Code eingeben und ausführen, manchmal steht schon etwas drin, dass Sie ausführen sollen um sich den Output anzuschauen. Wenn Sie mal nicht weiter wissen, dann gibt es dort, wo Sie selbst überlegen müssen, immer auch einen Button, der Ihnen die Lösung anzeigt, oder zumindest einen Hinweis (Button `Hint`) zeigt
+Manchmal müssen Sie selbst den Code eingeben und ausführen, manchmal steht schon etwas drin, dass Sie ausführen sollen um sich den Output anzuschauen. Wenn Sie mal nicht weiter wissen, dann gibt es dort, wo Sie selbst überlegen müssen, immer auch einen Button, der Ihnen die Lösung anzeigt, oder zumindest einen Hinweis zeigt (Button `Hint` oder `Solution`).
 
 ```{r, out.width = "70%", fig.pos="h"}
 include_graphics("./images/solution.png")
@@ -319,7 +326,7 @@ Oder nutzen Sie zusätzlich die `mean()`-Funktion um zu prüfen, in welchen Jahr
 
 
 
-## Wiederholung einiger Funktionen
+## Teil 2 - Funktionen
 
 Wir haben schon einige Funktionen kennengerlernt...
 
@@ -382,7 +389,7 @@ Table: Operatoren für Vergleiche (vgl. Kabacoff, 2011: 77)
 Diese Vergleichoperatoren sind vor allem beim Indizieren (also beim Subsetting von Objekten) wichtig. 
 Damit beschäftigen wir uns jetzt im dritten Teil des Tutorials.
 
-## Indizieren
+## Teil 3 - Indizieren
 
 Um das Indizieren zu verstehen ist muss man wissen, dass beim Indizieren ausgewählt wird, was `TRUE` ist.
 
@@ -474,12 +481,12 @@ Bitte schauen Sie sich die folgende Tabelle an:
 
 ```{r tab}
 auswahl <- c("CDU", "CSU", "SPD", "FDP", "B90/Gru", "PDS|Li")
-knitr::kable(df[df$party_name_short %in% auswahl,],
+knitr::kable(wahlergebnisse[wahlergebnisse$party_name_short %in% auswahl,],
              row.names = FALSE)
 ```
 
 ```{r btw-prepare, exercise=FALSE}
-wahlen <- as.matrix(df[df$party_name_short %in% auswahl, c(2:9)])
+wahlen <- as.matrix(wahlergebnisse[wahlergebnisse$party_name_short %in% auswahl, c(2:9)])
 dimnames(wahlen) <- NULL
 ```
 
@@ -499,8 +506,9 @@ Jetzt sind Sie dran: bitte beschriften Sie die Matrix mit Parteinamen und Jahres
 ```{r mat2-solution}
 partei <- c("B90/Gru", "CDU", "CSU", "FDP", "PDS|Li", "SPD") 
 jahr <- c(1990, 1994, 1998, 2002, 2005, 2009, 2013, 2017)
-dimnames(wahlen)[[1]] <- partei
-dimnames(wahlen)[[2]] <- jahr
+dimnames(wahlen)[[1]] <- partei  # Zeilen beschriften
+dimnames(wahlen)[[2]] <- jahr  # Spalten beschriften
+wahlen #Objekt aufrufen
 ```
 
 
@@ -509,9 +517,19 @@ Leider hat sich ein Fehler eingeschlichen. 1990 sind die Grünen in Ost und West
 Bitte nutzen Sie die Indizierung, um das Ergebnis der Grünen 1990 in der Matrix zu korrigieren.
 
 
-```{r mat3, exercise=TRUE,  exercise.setup = "btw-prepare"}
+
+```{r btw-prepare1}
+wahlen <- as.matrix(wahlergebnisse[wahlergebnisse$party_name_short %in% auswahl, c(2:9)])
+partei <- c("B90/Gru", "CDU", "CSU", "FDP", "PDS|Li", "SPD") 
+jahr <- c(1990, 1994, 1998, 2002, 2005, 2009, 2013, 2017)
+dimnames(wahlen)[[1]] <- partei
+dimnames(wahlen)[[2]] <- jahr
+```
+
+```{r mat3, exercise=TRUE,  exercise.setup = "btw-prepare1"}
 
 ```
+
 
 
 ```{r mat3-solution}
@@ -527,7 +545,9 @@ wahlen[1,"1990"] <- wahlen["B90/Gru",1] + 1.2
 
 Bitte erstellen Sie eine neue Matrix mit dem Namen `wahlen2` auf Basis der bestehenden Matrix. Sie soll eine zuätzliche Zeile in enthalten, die das gemeinsame Ergebnis für die CDU/CSU enthält. 
 
-```{r mat4, exercise=TRUE,  exercise.setup = "btw-prepare"}
+
+
+```{r mat4, exercise=TRUE,  exercise.setup = "btw-prepare1"}
 
 ```
 
@@ -541,12 +561,14 @@ CDU_und_CSU <- wahlen["CDU",] + wahlen["CSU",]
 # CDU_und_CSU <- wahlen[2,] + wahlen[3,] 
 
 wahlen2 <- rbind(wahlen, CDU_und_CSU)
+wahlen2
 ```
 
 
 Jetzt sollen Sie dieses neue Objekt `wahlen2` nutzen, um zu berechnen, wie viel Prozent Stimmanteil sonstige Parteien erhalten haben. Denken Sie daran, dass Sie jetzt nicht `CDU` und `CSU` oder `CDUundCSU` gleichzeitig nutzen dürfen, sondern durch Indizierung ausschließen müssen.
 
 ```{r btw-prepare2}
+wahlen <- as.matrix(wahlergebnisse[wahlergebnisse$party_name_short %in% auswahl, c(2:9)])
 partei <- c("B90/Gru", "CDU", "CSU", "FDP", "PDS|Li", "SPD") 
 jahr <- c(1990, 1994, 1998, 2002, 2005, 2009, 2013, 2017)
 dimnames(wahlen)[[1]] <- partei
@@ -597,4 +619,4 @@ wahlen2[-c(2,3),]
 
 ## Schluss
 
-Sie sind fertig mit dem Tutorial zu den Grundlagen. Im nächsten Schritt werden wir sehen, wie man Daten in R einliest und wie man mit **Dataframes** arbeitet.
+Sie sind fertig mit dem Tutorial zu den Grundlagen. Im nächsten Schritt werden wir sehen, wie man Daten in R einliest und wie man mit **Dataframes** arbeitet. Dazu gibt es in ILIAS ein Lernmodul: https://ilias3.uni-stuttgart.de/goto_Uni_Stuttgart_copa_2209483.html

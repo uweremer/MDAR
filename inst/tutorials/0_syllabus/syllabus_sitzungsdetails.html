@@ -2573,6 +2573,54 @@ window.onload = function() {
   PagedTableDoc.initAll();
 };
 </script>
+<style type="text/css">
+a.anchor-section {margin-left: 10px; visibility: hidden; color: inherit;}
+a.anchor-section::before {content: '#';}
+.hasAnchor:hover a.anchor-section {visibility: visible;}
+</style>
+<script>// Anchor sections v1.0 written by Atsushi Yasumoto on Oct 3rd, 2020.
+document.addEventListener('DOMContentLoaded', function() {
+  // Do nothing if AnchorJS is used
+  if (typeof window.anchors === 'object' && anchors.hasOwnProperty('hasAnchorJSLink')) {
+    return;
+  }
+
+  const h = document.querySelectorAll('h1, h2, h3, h4, h5, h6');
+
+  // Do nothing if sections are already anchored
+  if (Array.from(h).some(x => x.classList.contains('hasAnchor'))) {
+    return null;
+  }
+
+  // Use section id when pandoc runs with --section-divs
+  const section_id = function(x) {
+    return ((x.classList.contains('section') || (x.tagName === 'SECTION'))
+            ? x.id : '');
+  };
+
+  // Add anchors
+  h.forEach(function(x) {
+    const id = x.id || section_id(x.parentElement);
+    if (id === '') {
+      return null;
+    }
+    let anchor = document.createElement('a');
+    anchor.href = '#' + id;
+    anchor.classList = ['anchor-section'];
+    x.classList.add('hasAnchor');
+    x.appendChild(anchor);
+  });
+});
+</script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
 
 
 
@@ -2840,7 +2888,7 @@ Der dritte Teil dreht sich dann um Ablauf und Formalia des Seminars.</p>
 <ul>
 <li>Teil 1 und 2 als Vortragsaufzeichnung<br />
 </li>
-<li>Teil 3 als live Webex Meeting</li>
+<li>Teil 3 als live Webex Meeting mit Präsentation</li>
 </ul>
 </div>
 <div id="todo-und-notizen" class="section level3">
@@ -2854,6 +2902,10 @@ Der dritte Teil dreht sich dann um Ablauf und Formalia des Seminars.</p>
 <li>proprietere Lizenz vs. freie Software</li>
 <li>Daten, Input, Output, vs. </li>
 </ul>
+<p>Objektorientierung</p>
+<p>Sie erinnern sich an letzte Woche: R ist eine objektorientierte Programmiersprache. Was heißt das? Vereinfacht kann man sagen, dass alles Alles in R ist ein Objekt. Jedes Objekt gehört zu einer Klasse und mit jeder Klasse sind bestimmte Methoden (Funktionen) verbunden. Was bedeutet das?</p>
+<p>Beispiel: die Zahlenreihe 2,4,6,8 kann ich als Objekt in R speichern Reihe &lt;- c(1,2,3,4) Das Objekt „Reihe“ gehört dann zur Klasse numerischer Vektor. Diese Klasse gibt vor, welche Funktionen damit erlaubt sind. Wenn das Objekt zum Beispiel eine Vektor aus Wörtern wäre, dann wären andere Funktionen zulässig. Hier kein addieren möglich, kein Mittelwert berechnen etc. Die Funktionen selbst sind auch wieder Objekte. Das ermöglicht, dass zum Beispiel eine Funktion wie plot() immer weiß, was grafisch ausgegeben werden soll, je nach Klasse der Objekte, auf die die Funktion angewendet wird.</p>
+<p>Aber fangen wir von Grund auf an.</p>
 </div>
 </div>
 <div id="s2---erste-schritte-mit-r" class="section level2">
@@ -2861,7 +2913,7 @@ Der dritte Teil dreht sich dann um Ablauf und Formalia des Seminars.</p>
 <p><strong>09.11.2020</strong></p>
 <div id="beschreibung-1" class="section level3">
 <h3>Beschreibung</h3>
-<p>Die zweite Sitzung stellt die R Kommandozeile (“Console”) vor und demonstriert erste einfache Operationen (“R als Taschenrechner”). Dann lernen Sie R-Studio als GUI (Grafical User Interface) kennen, das die Bedienung erleichtert. Wir werden dann praktische Erfahrung mit den bereits in Sitzung 1 kennengelernten Datentypen und den Möglichekiten der Indizierung sammeln. Schauen Wir schauen auf typische Fehler und wie man diese beheben kann. Abschließend programmieren wir unsere erste eigene Funktion.</p>
+<p>Die zweite Sitzung stellt die R Kommandozeile (“Console”) vor und demonstriert erste einfache Operationen (“R als Taschenrechner”). Dann lernen Sie R-Studio als GUI (Grafical User Interface) kennen, das die Bedienung erleichtert. Wir werden dann praktische Erfahrung mit den bereits in Sitzung 1 kennengelernten Datentypen und den Möglichkeiten der Indizierung sammeln. Schauen Wir schauen auf typische Fehler und wie man diese beheben kann. Abschließend programmieren wir unsere erste eigene Funktion.</p>
 </div>
 <div id="lernziele-1" class="section level3">
 <h3>Lernziele</h3>
@@ -2877,6 +2929,10 @@ Der dritte Teil dreht sich dann um Ablauf und Formalia des Seminars.</p>
 </ul></li>
 <li>Die Studierenden kennen das Konzept einer Funktion und können einfache Funktionen erstellen.</li>
 </ul>
+</div>
+<div id="literatur" class="section level3">
+<h3>Literatur</h3>
+<p>Kabacoff 2011: 73-116</p>
 </div>
 <div id="didaktik-1" class="section level3">
 <h3>Didaktik</h3>
@@ -2895,12 +2951,14 @@ Der dritte Teil dreht sich dann um Ablauf und Formalia des Seminars.</p>
 <div id="ilias-html-lernmodulaus-r-markdown-html" class="section level4">
 <h4>ILIAS html Lernmodul(aus R Markdown html)</h4>
 <ul>
-<li>Datentypen erstellen, abrufen, verändern und in Funktionen nutzen</li>
+<li>Datentypen erstellen, abrufen, verändern</li>
 <li>Datentypen erkennen und Struktur erkunden</li>
+<li>Funktionen nutzen</li>
+<li>Erste Funktion erstellen (Mittelwert)</li>
 </ul>
 </div>
-<div id="video-zu-fehlermeldungen" class="section level4">
-<h4>Video zu Fehlermeldungen</h4>
+<div id="todo-video-zu-fehlermeldungen" class="section level4">
+<h4>TODO: Video zu Fehlermeldungen</h4>
 <ul>
 <li>Präsentationsaufzeichnung</li>
 <li>R Session Aufzeichnung</li>
@@ -2912,16 +2970,24 @@ Der dritte Teil dreht sich dann um Ablauf und Formalia des Seminars.</p>
 </div>
 <div id="todo-und-notizen-1" class="section level3">
 <h3>ToDo und Notizen:</h3>
-<p>Datentypen (Skalar, Vector, ) Aber auch numeric, string, bool</p>
-<p>1+1 Ausdruck</p>
-<p>Operand (Argument) und Funktion (Binary Operator)</p>
-<p>Ansicht: &gt; 1+1 #Eingabe 2 # Ausgabe</p>
-<p>Kommentare mit #</p>
+<p>Hinweis geben, dass in Zukunft nur mit Rstuio gearbeitet wird. Man die reine R Kommandozeile nicht aufrufen muss.</p>
+<ul>
+<li>Datenstrukturen stat Datentypen</li>
+<li>WICHTIG: NAMES Objekte ergänzen!</li>
+<li>FUNKTIONEN Slides ergänzen</li>
+<li>Video zu Fehlermeldungen</li>
+<li>Ergebnissicherung LearnR Tutorial</li>
+</ul>
 </div>
 </div>
-<div id="s3---16.11.2020" class="section level2">
-<h2>S3 - 16.11.2020</h2>
-<p><strong>R Workflow</strong></p>
+<div id="s3---r-workflow" class="section level2">
+<h2>S3 - R Workflow</h2>
+<p><strong>16.11.2020</strong></p>
+<div id="beschreibung-2" class="section level3">
+<h3>Beschreibung</h3>
+</div>
+<div id="lernziele-2" class="section level3">
+<h3>Lernziele</h3>
 <ul>
 <li>Daten einlesen</li>
 <li>Daten und Code handling (R Projekte, Workingdirectory, Ordnerstruktur)</li>
@@ -2929,17 +2995,73 @@ Der dritte Teil dreht sich dann um Ablauf und Formalia des Seminars.</p>
 <li>R Markdown</li>
 </ul>
 </div>
-<div id="sitzung-1---konstituierende-sitzung" class="section level2 unlisted unnumbered">
-<h2>02.11.2020 Sitzung 1 - Konstituierende Sitzung</h2>
+<div id="didaktik-2" class="section level3">
+<h3>Didaktik</h3>
+<p>ILIAS Lernmodul Begrüßungsvideo Inhaltsseite Funktionen Inhaltsseite -&gt; Wiederholung via LearnR</p>
+<p>Überleitungsvideo: Jetzt data.frame als neue Datenstruktur “Finden Sie heraus, wo ihr Datensatz ist” –&gt; Später: Projekt. Skript / Learnr: Einlesen LearnR Arbeiten mit Dataframes</p>
+<p>kbacoff pretty -&gt; table</p>
+<p>Kein überspeichern des DAetnsatzes. Nur speichern des Skriptes.</p>
+<p>Überleitungsvideo: R Workflow</p>
 </div>
-<div id="sitzung-2---erste-schritte-mit-r" class="section level2 unlisted unnumbered">
-<h2>09.11.2020 Sitzung 2 - Erste Schritte mit R</h2>
+<div id="todo-und-notizen-2" class="section level3">
+<h3>ToDo und Notizen:</h3>
+<p>data.frame Factors</p>
+<p>head() tails()</p>
+<p>Kabacoff S12 Functions to handle workspace</p>
+<p>Einrücken, verschachteln etc.</p>
 </div>
-<div id="sitzung-3---r-workflow" class="section level2 unlisted unnumbered">
-<h2>16.11.2020 Sitzung 3 - R Workflow</h2>
 </div>
-<div id="sitzung-4---wiederholung-recodieren-transformieren-indices" class="section level2 unlisted unnumbered">
-<h2>23.11.2020 Sitzung 4 - Wiederholung: recodieren, transformieren, Indices</h2>
+<div id="s4---recodieren-transformieren-indices" class="section level2">
+<h2>S4 - Recodieren, transformieren, Indices</h2>
+<p><strong>23.11.2020</strong></p>
+<div id="beschreibung-3" class="section level3">
+<h3>Beschreibung</h3>
+<p>In vielen Fälen können die Variablen, wie sie in einem Datensatz vorliegen, nicht direkt für eine Analyse genutzt werden. Oft müssen fehlende Werte definiert (zumindest geprüft werden), es müssen Merkmalsausprägungen umkodiert werden, oder es müssen mehrere Variablen zusammengefasst werden, um komplexere Konstrukte angemessen zu erfassen. Diese Sitzung beschäftigt sich mit diesen typischen Schritten der Datenvorbereitung, die im Zuge der <em>Operationalisierung</em> durchgeführtwerden: recodieren, transformieren und Indexbildung.</p>
+</div>
+<div id="lernziele-3" class="section level3">
+<h3>Lernziele</h3>
+<ul>
+<li>Missing Values erkennen und definieren</li>
+<li>Variablen recodieren (einzelne Werte oder ganze Variablen)</li>
+</ul>
+</div>
+<div id="didaktik-3" class="section level3">
+<h3>Didaktik</h3>
+<ul>
+<li>Missing Values
+<ul>
+<li>prüfen</li>
+<li>definieren</li>
+<li>Zählen</li>
+<li>Subset für Datensatz ohne NA für mehrere Var</li>
+</ul></li>
+<li>Recode
+<ul>
+<li>Character Variable ändern</li>
+<li>recode mit dem Car package</li>
+<li>Faktor-Variable</li>
+</ul></li>
+<li>Transformieren (Beispiele)
+<ul>
+<li>Variable drehen</li>
+<li>z-Transformation</li>
+<li>logarithmieren</li>
+</ul></li>
+</ul>
+</div>
+<div id="todo-und-notizen-3" class="section level3">
+<h3>ToDo und Notizen</h3>
+</div>
+</div>
+<div id="aufgabe-b" class="section level2">
+<h2>Aufgabe B</h2>
+<p>Lesen Sie den ESS als SPSS-Datei ein. Nutzen Sie die Länderkürzel der Variable <code>cntry</code> um einen Vektor der Osteuropäischen EU-Länder zu erstellen. Nutzen Sie diesen dann mit dem <code>%in%</code> Operator, um je einen Osteuropa und Westeurop Subset des Datensatzes zu erstellen. Schließen Sie die Schweiz und Montenegro dabei als nicht-EU Länder aus.</p>
+<ol style="list-style-type: decimal">
+<li>Suchen Sie im Datensatz nach <em>einer</em> Variable, mit der Sie politisches Vertrauen messen würden.</li>
+<li>Berechnen Sie damit das durchschnittliche politische Vertrauen je für westeuropäischen und für die osteuropäischen Länder.</li>
+<li>Erstellen Sie eine relative Häufigkeitstabelle für die Variable <code>vote</code>.</li>
+<li>Vergleichen Sie dann, wie hoch der Anteil der Wähler unter den Befragten ist, die überdi</li>
+</ol>
 </div>
 <div id="sitzung-5---wiederholung-uni--und-bivariate-statistik-aufbereiten-und-ausgeben" class="section level2 unlisted unnumbered">
 <h2>30.11.2020 Sitzung 5 - Wiederholung: uni- und bivariate Statistik (aufbereiten und ausgeben)</h2>
@@ -2968,6 +3090,15 @@ Der dritte Teil dreht sich dann um Ablauf und Formalia des Seminars.</p>
 <div id="sitzung-13---regressionsanalyse-v-moderator--und-mediator-effekte" class="section level2 unlisted unnumbered">
 <h2>08.02.2021 Sitzung 13 - Regressionsanalyse V, Moderator- und Mediator-Effekte</h2>
 </div>
+<div id="sitzung-hausarbeit" class="section level2">
+<h2>Sitzung Hausarbeit:</h2>
+<p>Aufbau Was gehört rein:</p>
+<p>Zusammenfassung: Was macht das Skript?</p>
+<p>Abschnitte mit Überschriften Strukturieren Daten einlesen Variablen Vorbereiten Bivariate Analysen Regressionsanalysen Robustheits-Checks</p>
+<p>Einzelne Schritte beschreiben: Was tun Sie, wie und warum? Beschreibung ist so aussagekräftig, dass man auch ohne Code zum selben ergebnis käme</p>
+<p>Wenn entscheidungen getroffen werden (müssen): Hier kann man dokumentieren! In der Arbeit schreibt man: “xyz wurde geprüft…” Im Anhang wird diese Prüfung dann berichtet. Z.B: alternative Operationalisierungen.</p>
+<p>GGf. Einzelne Codezeilen zusätzlich kommentieren, wenn nicht direkt ersichtlich ist, was hier passiert.</p>
+</div>
 </div>
 
 
@@ -2981,7 +3112,7 @@ Der dritte Teil dreht sich dann um Ablauf und Formalia des Seminars.</p>
 
 // add bootstrap table styles to pandoc tables
 function bootstrapStylePandocTables() {
-  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
 }
 $(document).ready(function () {
   bootstrapStylePandocTables();

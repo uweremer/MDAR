@@ -1,0 +1,372 @@
+---
+title: "MDAR Sitzung 3"
+subtitle: "Grundlagen R"
+author: "Dr. Uwe Remer"
+date: "WS 2020/2021"
+output: 
+  learnr::tutorial:
+    progressive: true
+runtime: shiny_prerendered
+description: >
+  Übungsaufgabe zu den Tutorials aus Sitzung 3 Grundlagen. 
+---
+
+```{r setup, include=FALSE}
+library(learnr)
+library(MDAR)
+library(knitr)
+knitr::opts_chunk$set(echo = FALSE)
+tutorial_options(exercise.cap = "Bitte eingeben")
+```
+
+
+
+# Übungsaufgabe S2 - Grundlagen
+
+## Einleitung
+
+Diese Übungsaufgabe dient zur Selbstkontrolle, ob Sie die Lernziele aus [*Sitzung 3*](https://ilias3.uni-stuttgart.de/goto_Uni_Stuttgart_sess_2207595.html) erreicht haben:
+
+- Objekte in R erstellen und bearbeiten
+- einfache Funktionen nutzen
+- Objekte indizieren
+
+Die Übungsaufgabe wird nicht bewertet und ist nicht Teil einer Studien- oder Prüfungsleistung. Wenn Sie die Aufgabe nicht bestehen, sollten Sie jedoch die Inhalte aus [*Sitzung 3*](https://ilias3.uni-stuttgart.de/goto_Uni_Stuttgart_sess_2207595.html) nochmal wiederholen. 
+
+### Daten einlesen und vorbereiten
+
+Wir nutzen einen Datensatz zu Wahlen von der *ParlGov database* (Döring and Manow 2019).^[Döring, Holger and Philip Manow. 2019. Parliaments and governments database (ParlGov): Information on parties, elections and cabinets in modern democracies. Development version. http://www.parlgov.org, abgerufen am 23.11.2020.]
+
+Dieser Datensatz enthält zwei Feinheiten, die es am Anfang unnötig schwer machen. Daher gibt es auf ILIAS eine vorbereitete Version: Bitte laden Sie für diese Aufgabe den Datenatz `parlgov_prepared.csv` aus ILIAS herunter: [Link zu Datei](https://ilias3.uni-stuttgart.de/goto_Uni_Stuttgart_file_2208379_download.html). Lesen Sie die csv-Datei als neues Objekt `elections` ein. 
+
+> Wichtig: Innerhalb der Learnr Umgebung müssen Sie mit **absoluten Pfaden** arbeiten. 
+
+```{r einlesen, exercise=TRUE}
+# Bitte passen Sie den Pfad entsprechend an...
+elections <- read.table("C:/Users/Ihrname/Desktop/parlgov_prepared.csv",
+                        sep=",",
+                        dec=".",
+                        header=T)
+```
+
+
+```{r einlesen-solution}
+# Bitte passen Sie den Pfad entsprechend an...
+elections <- read.table("C:/Users/Ihrname/Desktop/parlgov_prepared.csv",
+                        sep=",",
+                        dec=".",
+                        header=T)
+```
+
+Mit der Funktion `head()` können Sie einen ersten Blick auf die Daten werfen:
+
+```{r erster-blick, exercise=TRUE}
+head(elections)
+```
+
+```{r erster-blick-solution}
+head(elections)
+```
+
+
+Bitte erstellen Sie jetzt einen **Teil-Datensatz** mit Namen `btw`, der nur **Parlamentswahlen in Deutschland nach 1945** enthält.
+
+```{r btw-teildatensatz, exercise=TRUE}
+btw <- elections[elections$election_type =="parliament" & elections$country_name == "Germany" & elections$year >= 1945, ]
+```
+
+```{r btw-teildatensatz-solution}
+btw <- elections[elections$election_type =="parliament" & elections$country_name == "Germany" & elections$year >= 1945, ]
+```
+
+Wenn Sie komplexe Indizierungen haben, können Sie auch zuerst einen Vektor erstellen, der enthält, welche Fälle (Zeilen) ausgewählt werden sollen. So bleibt der Code etwas übersichtlicher.
+
+```{r btw-teildatensatz-alternativ, exercise=TRUE}
+# Zuerst erstellen wir eine Filtervariable
+auswahl <- c(elections$election_type =="parliament" & 
+  elections$country_name == "Germany" &
+  elections$year >= 1945)
+# Mit der table() Funktion könnten wir feststellen, wie oft der Vektor den Wert TRUE enthält
+table(auswahl)
+# Und schließlich den Teil-Datensatz erstellen 
+btw <- elections[auswahl, ]
+head(btw)
+```
+
+Mit dem vorbereiteten Datensatz `btw` geht es nun zur eigentlichen Aufgabe...
+
+
+## Aufgaben
+
+
+Bitte lösen Sie dann die folgenden Aufgaben, ohne händisch nachzuschauen, sondern nur mitteils Code-Eingabe!
+
+1. Welchen Stimmanteil haben die SPD und die CDU jeweils im Durchschnitt?
+2. Wie groß ist der Abstand zwischen den beiden Parteien im Durchschnitt?
+3. Wann gab es den größten Abstand zwischen den beiden Parteien?
+4. In welchen Jahren lag die SPD über der CDU?
+5. Wie häufig lag die SPD über der CDU?
+6. In welchen Jahren war der Abstand zwischen den Parteien überdurchschnittlich groß?
+
+
+### Aufgabe 1
+
+> Welchen Stimmanteil haben die SPD und die CDU jeweils im Durchschnitt?
+
+
+```{r a1, exercise=TRUE}
+mean(btw$vote_share[btw$party_name_short == "CDU"])
+mean(btw$vote_share[btw$party_name_short == "SPD"])
+# Alternativ:
+mean(btw[btw$party_name_short == "CDU", "vote_share"])
+mean(btw[btw$party_name_short == "SPD", "vote_share"])
+```
+
+```{r a1-solution}
+mean(btw$vote_share[btw$party_name_short == "CDU"])
+mean(btw$vote_share[btw$party_name_short == "SPD"])
+# Alternativ:
+mean(btw[btw$party_name_short == "CDU", "vote_share"])
+mean(btw[btw$party_name_short == "SPD", "vote_share"])
+```
+
+
+### Aufgabe 2
+
+> Wie groß ist der Abstand zwischen den beiden Parteien im Durchschnitt?
+
+```{r a2, exercise=TRUE}
+abstand <- btw$vote_share[btw$party_name_short == "CDU"] - btw$vote_share[btw$party_name_short == "SPD"]
+# Aber Sie müssen die absoluten Differenzen nutzen (Betrag):
+absoluter_abstand <- abs(abstand)
+names(absoluter_abstand) <- btw$year[btw$party_name_short == "CDU"]
+mean(absoluter_abstand)
+```
+
+```{r a2-solution}
+abstand <- btw$vote_share[btw$party_name_short == "CDU"] - btw$vote_share[btw$party_name_short == "SPD"]
+# Aber Sie müssen die absoluten Differenzen nutzen (Betrag):
+absoluter_abstand <- abs(abstand)
+names(absoluter_abstand) <- btw$year[btw$party_name_short == "CDU"]
+mean(absoluter_abstand)
+```
+
+### Aufgabe 3
+
+> Wann gab es den größten Abstand zwischen den beiden Parteien?
+
+```{r a3, exercise=TRUE}
+abstand <- btw$vote_share[btw$party_name_short == "CDU"] - btw$vote_share[btw$party_name_short == "SPD"]
+# Aber Sie müssen die absoluten Differenzen nutzen (Betrag):
+absoluter_abstand <- abs(abstand)
+absoluter_abstand 
+which(absoluter_abstand == max(absoluter_abstand))
+which.max(absoluter_abstand)
+
+# Da wir aber wissen wollten WANN der größte Abstand war
+# müssen wir absoluter_abstand noch beschriften
+names(absoluter_abstand) <- btw$year[btw$party_name_short == "CDU"]
+which.max(absoluter_abstand)
+```
+
+```{r a3-solution}
+abstand <- btw$vote_share[btw$party_name_short == "CDU"] - btw$vote_share[btw$party_name_short == "SPD"]
+# Aber Sie müssen die absoluten Differenzen nutzen (Betrag):
+absoluter_abstand <- abs(abstand)
+absoluter_abstand 
+which(absoluter_abstand == max(absoluter_abstand))
+which.max(absoluter_abstand)
+
+# Da wir aber wissen wollten WANN der größte Abstand war
+# müssen wir absoluter_abstand noch beschriften
+names(absoluter_abstand) <- btw$year[btw$party_name_short == "CDU"]
+which.max(absoluter_abstand)
+```
+
+### Aufgabe 4
+
+> In welchen Jahren lag die SPD über der CDU?
+
+```{r a4, exercise=TRUE}
+cdu <- btw$vote_share[btw$party_name_short == "CDU"]
+names(cdu) <- btw$year[btw$party_name_short == "CDU"]
+
+spd <- btw$vote_share[btw$party_name_short == "SPD"]
+names(spd) <- btw$year[btw$party_name_short == "SPD"]
+
+which(spd > cdu)
+```
+
+```{r a4-solution}
+cdu <- btw$vote_share[btw$party_name_short == "CDU"]
+names(cdu) <- btw$year[btw$party_name_short == "CDU"]
+
+spd <- btw$vote_share[btw$party_name_short == "SPD"]
+names(spd) <- btw$year[btw$party_name_short == "SPD"]
+
+which(spd > cdu)
+```
+
+### Aufgabe 5
+
+> Wie häufig lag die SPD über der CDU?
+
+```{r a5, exercise=TRUE}
+cdu <- btw$vote_share[btw$party_name_short == "CDU"]
+names(cdu) <- btw$year[btw$party_name_short == "CDU"]
+
+spd <- btw$vote_share[btw$party_name_short == "SPD"]
+names(spd) <- btw$year[btw$party_name_short == "SPD"]
+
+length(which(spd > cdu))
+# Oder sum() - Das zählt nur TRUE
+sum(spd > cdu)
+```
+
+```{r a5-solution}
+cdu <- btw$vote_share[btw$party_name_short == "CDU"]
+names(cdu) <- btw$year[btw$party_name_short == "CDU"]
+
+spd <- btw$vote_share[btw$party_name_short == "SPD"]
+names(spd) <- btw$year[btw$party_name_short == "SPD"]
+
+length(which(spd > cdu))
+# Oder sum() - Das zählt nur TRUE
+sum(spd > cdu)
+```
+
+
+### Aufgabe 6
+
+> In welchen Jahren war der Abstand zwischen den Parteien überdurchschnittlich groß?
+
+```{r a6, exercise=TRUE}
+cdu <- btw$vote_share[btw$party_name_short == "CDU"]
+names(cdu) <- btw$year[btw$party_name_short == "CDU"]
+
+spd <- btw$vote_share[btw$party_name_short == "SPD"]
+names(spd) <- btw$year[btw$party_name_short == "SPD"]
+
+# Wichtig! Zuerst den absoluten Abstand, dann den Mittelwert nehmen!
+durchschnittlicher_absoluter_abstand <- mean(abs(spd - cdu))
+which(abs(spd - cdu) > durchschnittlicher_absoluter_abstand)
+```
+
+```{r a6-solution}
+cdu <- btw$vote_share[btw$party_name_short == "CDU"]
+names(cdu) <- btw$year[btw$party_name_short == "CDU"]
+
+spd <- btw$vote_share[btw$party_name_short == "SPD"]
+names(spd) <- btw$year[btw$party_name_short == "SPD"]
+
+# Wichtig! Zuerst den absoluten Abstand, dann den Mittelwert nehmen!
+durchschnittlicher_absoluter_abstand <- mean(abs(spd - cdu))
+which(abs(spd - cdu) > durchschnittlicher_absoluter_abstand)
+```
+
+## Der Original Datensatz
+
+### Die Schwierigkeiten mit Daten aus freier Wildbahn 
+
+Wer noch Zeit und Interesse hat, kann sich hier noch mit den Feinheiten der Originaldaten auseinandersetzen. Der Datensatz enthält zwei Schwierigkeiten für Sie:
+
+- Eine Partei hat ein besonderes Zeichen im Namen, die ein einfaches einlesen mit `read.table()` verhindert
+- Es gibt keine Jahres-Variable nach der Sie Filtern können, sondern nur eine Datumsvariable, die als Zeichenkette (also `character` Vektor) im Datensatz enthalten ist.
+
+Bevor wir loslegen, müssen Sie den original Datensatz `view_election.csv` von [hier](http://www.parlgov.org/static/data/development-cp1252/view_election.csv) herunterladen.
+
+### Erstes Einlesen scheitert
+
+Wenn wir diesen Datensatz einlesen, bekommen wir eine Fehlermeldung:
+
+```{r original-einlesen, exercise=TRUE}
+elections <- read.table("C:/Users/Ihrname/Desktop/view_election.csv",
+                        sep=",",
+                        dec=".",
+                        header=TRUE)
+```
+
+Csv Dateien müssen aus in jeder Zeile gleich viele Spalten haben, also *rechteckig* (rectengular) sein mit $n\times k$ Zeilen $\times$ Spalten.
+
+Die Fehlermeldung `line 32 did not have 16 elements` weist darauf hin, dass Zeile 32 weniger oder mehr als die 16 erwarteten Zellen aufweist. Um das Problem zu beheben, schaut man sich die csv Datei am besten mit einem Editor an (z.B: dem Windows-Programm *Editor* oder der freien Software [*Notepad++*](https://notepad-plus-plus.org/)). 
+
+Wir finden das Problem in Zeile 33. Warum 33, die Fehlermeldung sagt doch 32? Die Antwort ist. Wir haben beim einlesen gesagt `header=TRUE`. Deshalb liest R die erste Zeile als Spaltenüberschrift bzw. Variablennamen ein. Die eigentliche Daten beginnen damit erst in Zeile 2. Daher der Versatz um eine Zeile.
+
+In der Zeile 33 sehen wir, dass die Partei *Victorian Farmers' Union* ein einfaches Anführungszeichen (Hochkomma) im Namen trägt (siehe rot hervorgehoben in der Abbildung unten).
+
+```{r, out.width = "100%", fig.pos="h"}
+include_graphics("./images/notepad.png")
+```
+
+Dieses Zeichen wird beim einlesen der Daten von R als Textbegrenzungszeichen interpretiert (also ein Zeichen, dass dem Computer sagt: Achtung  hier kommt nur Text, kein Programmbefehl). R liest also das Hochkomma nicht als Zeichen im Namen, sondern als Funktionszeichen dafür, dass nachfolgend Text kommt. Da in Zeile 33 der Name der Partei und damit das Hochkomma zwei Mal vorkommt, überliest R beim einlesen das als Feldtrennzeichen (delimiter oder seperator) gesetzte Komma (gelb in der Abbildung hervorgehoben). Das Komma wird also nicht als Abtrennung zweier Tabellenzellen erkannt, sondern als Text.
+
+
+Um R daran zu hindern, dass Sonderzeichen in Tabellenfeldern als Funktionszeichen gelesen werden, müssen wir R sagen, dass es automatisch für jede Zelle das Textbegrenzungszeichen mitdenkt. Das geschieht mit dem Argument `quote=...`, dass wir der Funktion `read.table()` mitgeben. 
+
+
+Damit R beim setzen der Textbegrenzungszeichen (mit `quote`) nicht die doppelten Anführungszeichen `"`  als Funktionszeichen interpretiert (also eine Texteingabe erwartet), müssen wir ein sogenanntes  Maskierungszeichen (*escape character*) setzen. In R dient der Backslash `\` als Maskierungszeichen. Wir schreiben als Argument also: 
+
+```
+quote="\""
+``` 
+
+Zusammen sieht der Befehl zum einlesen dann so aus:
+
+```{r original-einlesen2, exercise=TRUE}
+# Bitte passen Sie den Pfad entsprechend an...
+elections <- read.table("C:/Users/Ihrname/Desktop/view_election.csv",
+                        sep=",",
+                        dec=".",
+                        header=TRUE,
+                        quote="\"")
+```
+
+Bitte schauen Sie sich doch auch dazu diese Seiten bei Wikipedia an: [*csv Dateiformat*](https://de.wikipedia.org/wiki/CSV_(Dateiformat)) und [*Maskierungszeichen*](https://de.wikipedia.org/wiki/Maskierungszeichen).
+
+Um den Datensatz für die Aufgabe vorzubereiten, habe ich dann das Hochkomma im Namen der Partei einfach entfernt. 
+
+```{r original-hochkomma-entfernen, exercise=TRUE}
+elections$party_name <- gsub("\'", "", elections$party_name)
+elections$party_name_english <- gsub("\'", "", elections$party_name_english)
+``` 
+
+
+### Erstellen einer Jahresvariabale
+
+Das zweite Problem mit dem Originaldatensatz ist, dass die Datumsvariable nicht direkt genutzt werden kann, um zum Beispiel nur Wahlen nach 1945 zu betrachten. Die Variable `election_date` enthält das Datum als `character` Werte. Eine Vergleichsoperation ist daher nicht intuitiv, funktioniert aber:
+
+```{r original-datum,exercise=TRUE}
+head(elections$election_date)
+is.character(elections$election_date)
+elections$election_date[elections$election_date < 1945]
+```
+
+Um es aber einfache zu machen ertsellen wir eine seperate Datumsvariable. Mit den folgenden Codezeilen wird eine neue Variable `year` an den Datensatz angehängt. Sie enthält die ersten vier Zeichen der Variable `election_date`. Dafür benutzen wir die Funkion `substr(text, start, stop)` (substring). Diese Variable ist ein `character` Vektor. Den ändern wir dann zu einer `numeric` Variable (mit Funktion `as.numeric()`), damit wir im nächsten Schritt die Jahreszahl zum Filtern (indizieren) der Daten nutzen können.
+
+
+```{r original-jahre, exercise=TRUE}
+elections$year <- as.numeric(substr(elections$election_date, 1,4))
+```
+
+
+### Vorbereiteten Datensatz speichern
+
+Der nun vorbereitete Datensatz muss noch gespeichert werden, dabei nutze ich aber nur ausgewählte Variablen. Gespeichert wird mit der Funktion `write.table()`. Wir geben an:
+
+- welches Objekt als csv Tabelle gespeichert werden soll: `elections[, variablen_auswahl]`
+- wo es gespeichert werden soll: `file = "..."`
+- welches Zeichen als Feldtrennzeichen genutzt werden soll: `sep = "..."`
+- welches Zeichen als Dezimaltrennzeichen genutzt werden soll: `dec="."`
+
+
+```{r speichern, exercise=TRUE}
+names(elections)
+variablen_auswahl <- c(2,3,5,8,9,17) # Welche Variablen sollen genutzt werden
+names(elections)[variablen_auswahl] # Prüfen, ob die richtigen Variablen gewählt werden
+write.table(elections[, variablen_auswahl],
+            file="C:/Users/Ihrname/Desktop/parlgov_prepared.csv", # Bitte passen Sie den Pfad entsprechend an...
+            sep=",",
+            dec=".")
+```
+
+Fertig ist der vorbereitete Datensatz `parlgov_prepared.csv`.

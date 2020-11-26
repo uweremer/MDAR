@@ -140,16 +140,20 @@ Kabacoff 2011: 73-116
 - Funktionen nutzen
 - Erste Funktion erstellen (Mittelwert)
 
+#### Ergebnissicherung LearnR Tutorial
+
 #### TODO: Video zu Fehlermeldungen
 
-  - Präsentationsaufzeichnung
-  - R Session Aufzeichnung
-  
-#### TODO: Ergebnissicherung LearnR Tutorial
-
+- Präsentationsaufzeichnung
+- R Session Aufzeichnung
+- Ergebnissicherung LearnR Tutorial -> 
+  - Pakage Datensatz selbst ertsellen statt parlgov
+  - Datenstruktur der Aufgabe 2_Wiederholungsaufgabe ändern zu zeilen parteien, spalten wahlen
 
 
 ### ToDo und Notizen:
+
+Hinweis geben, dass in Zukunft nur mit Rstuio gearbeitet wird. Man die reine R Kommandozeile nicht aufrufen muss.
 
 - Datenstrukturen stat Datentypen
 - WICHTIG: NAMES Objekte ergänzen!
@@ -197,28 +201,6 @@ Kein überspeichern des DAetnsatzes. Nur speichern des Skriptes.
 
 ### ToDo und Notizen:
 
-Wiederholung: Funktionen die wir genutzt haben
-length(object) Number of elements/components.
-dim(object) Dimensions of an object.
-str(object) Structure of an object.
-class(object) Class or type of an object.
-mode(object) How an object is stored.
-names(object) Names of components in an object.
-c(object, object,...) Combines objects into a vector.
-cbind(object, object, ...) Combines objects as columns.
-rbind(object, object, ...) Combines objects as rows.
-object Prints the object.
-head(object) Lists the first part of the object.
-tail(object) Lists the last part of the object.
-ls() Lists current objects.
-rm(object, object, ...) Deletes one or more objects. The statement
-rm(list = ls()) will remove most objects
-from the working environment.
-newobject <- edit(object) Edits object and saves as newobject.
-fix(object) Edits in place.
-
-
-
 data.frame
 Factors
 
@@ -236,11 +218,45 @@ Einrücken, verschachteln etc.
 
 
 
-## 23.11.2020 Sitzung 4 - Wiederholung: recodieren, transformieren, Indices {.unlisted .unnumbered}
+##  S4 - Recodieren, transformieren, Indices
+**23.11.2020**
+
+### Beschreibung 
+
+In vielen Fälen können die Variablen, wie sie in einem Datensatz vorliegen, nicht direkt für eine Analyse genutzt werden. Oft müssen fehlende Werte definiert (zumindest geprüft werden), es müssen Merkmalsausprägungen umkodiert werden, oder es müssen mehrere Variablen zusammengefasst werden, um komplexere Konstrukte angemessen zu erfassen. Diese Sitzung beschäftigt sich mit diesen typischen Schritten der Datenvorbereitung, die im Zuge der *Operationalisierung* durchgeführtwerden:  recodieren, transformieren und Indexbildung. 
+
+### Lernziele
+
+- Missing Values erkennen und definieren
+- Variablen recodieren (einzelne Werte oder ganze Variablen)
+
+### Didaktik
+
+- Missing Values
+    - prüfen
+    - definieren
+    - zählen
+    - Subset für Datensatz ohne `NA`s erstellen
+- Recode
+    - einzelne Werte einer `character` Variable ändern
+    - Recode einer ganzen Variable mit dem `car`-package
+    - Faktor-Variable erstellen
+- Transformieren (Beispiele)
+    - Variable drehen
+    - z-Transformation
+    - logarithmieren
+- Indexbildung
+    - Einfacher Additiver Index 
+    - komplexerer Index
 
 
 
-## Aufgabe B
+
+### ToDo und Notizen
+
+
+
+### Aufgabe B
 
 Lesen Sie den ESS als SPSS-Datei ein. Nutzen Sie die Länderkürzel der Variable `cntry` um einen Vektor der Osteuropäischen EU-Länder zu erstellen. Nutzen Sie diesen dann mit dem `%in%` Operator, um je einen Osteuropa und Westeurop Subset des Datensatzes zu erstellen. Schließen Sie die Schweiz und Montenegro dabei als nicht-EU Länder aus. 
 
@@ -248,6 +264,10 @@ Lesen Sie den ESS als SPSS-Datei ein. Nutzen Sie die Länderkürzel der Variable
 2. Berechnen Sie damit das durchschnittliche politische Vertrauen je für westeuropäischen und für die osteuropäischen Länder.
 3. Erstellen Sie eine relative Häufigkeitstabelle für die Variable `vote`. 
 4. Vergleichen Sie dann, wie hoch der Anteil der Wähler unter den Befragten ist, die überdi
+
+
+
+
 
 ## 30.11.2020 Sitzung 5 - Wiederholung: uni- und bivariate Statistik (aufbereiten und ausgeben) {.unlisted .unnumbered}
 ## 07.12.2020 Sitzung 6 - Mittelwertvergleich (t-Test) {.unlisted .unnumbered}

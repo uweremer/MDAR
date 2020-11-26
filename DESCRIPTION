@@ -1,7 +1,7 @@
 Package: MDAR
 Type: Package
 Title: Support package for "Multivariate Data Analysis with R (MDAR)"
-Version: 0.3.2
+Version: 0.3.3
 Author: Uwe Remer
 Maintainer: Uwe Remer <uwe.remer@sowi.uni-stuttgart.de>
 Description: This is the accompanying R package for
@@ -12,3 +12,4 @@ Description: This is the accompanying R package for
 License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true
+RoxygenNote: 7.1.1
