@@ -223,7 +223,7 @@ Einrücken, verschachteln etc.
 
 ### Beschreibung 
 
-In vielen Fälen können die Variablen, wie sie in einem Datensatz vorliegen, nicht direkt für eine Analyse genutzt werden. Oft müssen fehlende Werte definiert (zumindest geprüft werden), es müssen Merkmalsausprägungen umkodiert werden, oder es müssen mehrere Variablen zusammengefasst werden, um komplexere Konstrukte angemessen zu erfassen. Diese Sitzung beschäftigt sich mit diesen typischen Schritten der Datenvorbereitung, die im Zuge der *Operationalisierung* durchgeführtwerden:  recodieren, transformieren und Indexbildung. 
+In vielen Fälen können die Variablen, wie sie in einem Datensatz vorliegen, nicht direkt für eine Analyse genutzt werden. Oft müssen fehlende Werte definiert (zumindest geprüft werden), es müssen Merkmalsausprägungen umkodiert werden, oder es müssen mehrere Variablen zusammengefasst werden, um komplexere Konstrukte angemessen zu erfassen. Diese Sitzung beschäftigt sich mit diesen typischen Schritten der Datenvorbereitung, die im Zuge der *Operationalisierung* durchgeführtwerden: recodieren, transformieren und Indexbildung. 
 
 ### Lernziele
 
@@ -254,6 +254,15 @@ In vielen Fälen können die Variablen, wie sie in einem Datensatz vorliegen, ni
 
 ### ToDo und Notizen
 
+Aufgabe 3:
+Erstellen Sie einen formativen Index `SERL` *Socioeconomic Ressource Level* 
+
+Missing Values
+    - prüfen
+    - definieren
+    - zählen
+    - Subset für Datensatz ohne `NA`s erstellen
+
 
 
 ### Aufgabe B
@@ -269,7 +278,9 @@ Lesen Sie den ESS als SPSS-Datei ein. Nutzen Sie die Länderkürzel der Variable
 
 
 
-## 30.11.2020 Sitzung 5 - Wiederholung: uni- und bivariate Statistik (aufbereiten und ausgeben) {.unlisted .unnumbered}
+## Sitzung 5 - Wiederholung: uni- und bivariate Statistik 
+**30.11.2020** 
+
 ## 07.12.2020 Sitzung 6 - Mittelwertvergleich (t-Test) {.unlisted .unnumbered}
 ## 14.12.2020 Sitzung 7 - Varianzanalyse (ANOVA) {.unlisted .unnumbered}
 ## 21.12.2020 Sitzung 8 - Explorative Faktorenanalyse und Reliabilität {.unlisted .unnumbered}
